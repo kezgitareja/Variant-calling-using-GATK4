@@ -1,5 +1,5 @@
 ---
-title: "Variant calling using GATK4"
+title: "Introduction"
 teaching: 240
 exercises: 2
 ---
@@ -18,6 +18,8 @@ exercises: 2
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Introduction
+
+This tutorial runs through the GATK4 best practices workflow for variant calling. The workflow starts with pairs of sequencing reads and performs a series of steps to determine a set of genetic variants.
 
 This is a lesson created via The Carpentries Workbench. It is written in
 [Pandoc-flavored Markdown](https://pandoc.org/MANUAL.html) for static files and
