@@ -1,6 +1,6 @@
 ---
-title: "Using Markdown"
-teaching: 10
+title: "Variant calling using GATK4"
+teaching: 240
 exercises: 2
 ---
 
@@ -12,8 +12,8 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with The Carpentries Workbench
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Take raw DNA sequencing reads and perform variant calling to produce a variant list using GATK4.
+- Perform basic exploration of variants.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
