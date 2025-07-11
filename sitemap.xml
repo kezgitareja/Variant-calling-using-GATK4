@@ -52,6 +52,21 @@
     <loc>melbournebioinformatics.github.io/uom-varnish/instructor/reference.html</loc>
   </url>
   <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/instructor/section-1-map-raw-mapped-reads-to-reference-genome.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/instructor/section-2-prepare-analysis-ready-reads.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/instructor/section-3-variant-calling.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/instructor/section-4-filter-and-prepare-analysis-ready-variants.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/instructor/section-5-exporting-variant-data-and-visualisation.html</loc>
+  </url>
+  <url>
     <loc>melbournebioinformatics.github.io/uom-varnish/instructor-notes.html</loc>
   </url>
   <url>
@@ -65,5 +80,20 @@
   </url>
   <url>
     <loc>melbournebioinformatics.github.io/uom-varnish/reference.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/section-1-map-raw-mapped-reads-to-reference-genome.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/section-2-prepare-analysis-ready-reads.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/section-3-variant-calling.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/section-4-filter-and-prepare-analysis-ready-variants.html</loc>
+  </url>
+  <url>
+    <loc>melbournebioinformatics.github.io/uom-varnish/section-5-exporting-variant-data-and-visualisation.html</loc>
   </url>
 </urlset>
