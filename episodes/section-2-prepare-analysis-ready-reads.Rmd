@@ -187,10 +187,9 @@ O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics
 # MultiQC
 multiqc output/. -o output/.
 ```
+:::::::::::::::::::::::::::::::::
 
 We have precomputed this and the resulting MultiQC report is [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report.html).
-
-:::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
