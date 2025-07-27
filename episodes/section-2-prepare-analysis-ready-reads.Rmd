@@ -1,5 +1,5 @@
 ---
-title: 'Section 2: Prepare analysis ready reads'
+title: 'Prepare analysis ready reads'
 teaching: 10
 exercises: 2
 ---
@@ -17,50 +17,74 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## Sort SAM/BAM
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
-
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
-
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+The alignment file `NA12878.bam` is not sorted. Before proceeding, we should sort the BAM file using the [Picard](https://broadinstitute.github.io/picard/) tools.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
+#### Challenge 2.1
 
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
+```bash
+picard -Xmx7g SortSam \
+I=output/NA12878.bam \
+O=output/NA12878.sort.bam \
+VALIDATION_STRINGENCY=LENIENT \
+SORT_ORDER=coordinate \
+MAX_RECORDS_IN_RAM=3000000 \
+CREATE_INDEX=True
 ```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
 :::::::::::::::::::::::::::::::::
+
+The above command will create a coordinate sorted BAM file and an index (`.bai`) file. Given that we now have a sorted BAM file, we can now generate some useful statistics. To do so we can use the `samtools flagstat` command. More details are available [here](https://www.htslib.org/doc/samtools-flagstat.html). To decode the SAM flags visit [Decoding SAM flags website](https://broadinstitute.github.io/picard/explain-flags.html).
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.2
+
+Let's go to the home directory
+
+```bash
+cd
+samtools flagstat output/NA12878.sort.bam
+```
+
+```output
+2032568 + 0 in total (QC-passed reads + QC-failed reads)
+2030516 + 0 primary
+2052 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+2032563 + 0 mapped (100.00% : N/A)
+2030511 + 0 primary mapped (100.00% : N/A)
+2030516 + 0 paired in sequencing
+1015258 + 0 read1
+1015258 + 0 read2
+2030284 + 0 properly paired (99.99% : N/A)
+2030510 + 0 with itself and mate mapped
+1 + 0 singletons (0.00% : N/A)
+182 + 0 with mate mapped to a different chr
+124 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+:::::::::::::::::::::::::::::::::
+
+## Mark duplicate reads
+
+The aim of this step is to locate and tag duplicate reads in the BAM file. Duplicate reads can arise due to several reasons. For more details go to [MarkDuplicates](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard).
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.3
+
+```bash
+picard -Xmx7g MarkDuplicates \
+    I=output/NA12878.sort.bam \
+    O=output/NA12878.sort.dup.bam \
+    METRICS_FILE=output/marked_dup_metrics.txt
+```
+:::::::::::::::::::::::::::::::::
+
 
 
 ## Challenge 2: how do you nest solutions within challenge blocks?
