@@ -435,7 +435,7 @@ reinforce the objectives.</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -466,7 +466,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -493,7 +493,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -826,6 +826,140 @@ data.</li>
 </div>
 </div>
 </div>
+<section><h2 class="section-heading" id="sort-sambam">Sort SAM/BAM<a class="anchor" aria-label="anchor" href="#sort-sambam"></a>
+</h2>
+<hr class="half-width">
+<p>The alignment file <code>NA12878.bam</code> is not sorted. Before
+proceeding, we should sort the BAM file using the <a href="https://broadinstitute.github.io/picard/" class="external-link">Picard</a> tools.</p>
+<div id="challenge-2.1" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-2.1" class="callout-inner">
+<h3 class="callout-title">Challenge 2.1</h3>
+<div class="callout-content">
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">picard</span> <span class="at">-Xmx7g</span> SortSam <span class="dt">\</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>I=output/NA12878.bam <span class="dt">\</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>O=output/NA12878.sort.bam <span class="dt">\</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>VALIDATION_STRINGENCY=LENIENT <span class="dt">\</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>SORT_ORDER=coordinate <span class="dt">\</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>MAX_RECORDS_IN_RAM=3000000 <span class="dt">\</span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>CREATE_INDEX=True</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>The above command will create a coordinate sorted BAM file and an
+index (<code>.bai</code>) file.</p>
+<p>Given that we now have a sorted BAM file, we can now generate some
+useful statistics. To do so we can use the
+<code>samtools flagstat</code> command. More details are available <a href="https://www.htslib.org/doc/samtools-flagstat.html" class="external-link">here</a>. To
+decode the SAM flags visit <a href="https://broadinstitute.github.io/picard/explain-flags.html" class="external-link">Decoding
+SAM flags website</a>.</p>
+<p>Let’s go to the home directory:</p>
+</section><section><h2 class="section-heading" id="base-quality-recalibration">Base quality recalibration<a class="anchor" aria-label="anchor" href="#base-quality-recalibration"></a>
+</h2>
+<hr class="half-width">
+<p>The last step of pre-processing mapped reads is the base quality
+score recalibration (BQSR) stage. The GATK tools detects systematic
+errors made by the sequencing machine while estimating the accuracy of
+each base. The systematic errors can have various sources ranging from
+technical machine errors to the variability in the sequencing chemical
+reactions. The two step BQSR process applies machine learning to model
+the possible errors and adjust the base quality scores accordingly. More
+details <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR" class="external-link">here</a>.</p>
+<p>Let’s go to the home directory again, and build the model:</p>
+<div id="challenge-2.4" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-2.4" class="callout-inner">
+<h3 class="callout-title">Challenge 2.4</h3>
+<div class="callout-content">
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="bu">cd</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> BaseRecalibrator <span class="dt">\</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>    <span class="at">-I</span> output/NA12878.sort.dup.bam <span class="dt">\</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>    <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>    <span class="at">--known-sites</span> reference/hg38/dbsnp_146.hg38.vcf.gz <span class="dt">\</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>    <span class="at">-O</span> output/recal_data.table</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Then, apply the model to adjust the base quality scores:</p>
+<div id="challenge-2.5" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-2.5" class="callout-inner">
+<h3 class="callout-title">Challenge 2.5</h3>
+<div class="callout-content">
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> ApplyBQSR <span class="dt">\</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>    <span class="at">-I</span> output/NA12878.sort.dup.bam <span class="dt">\</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>    <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>    <span class="at">--bqsr-recal-file</span> output/recal_data.table <span class="dt">\</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>    <span class="at">-O</span> output/NA12878.sort.dup.bqsr.bam</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="note" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="note" class="callout-inner">
+<h3 class="callout-title">Note</h3>
+<div class="callout-content">
+<p>In a workflow such as this, it is a good practice to give the output
+files an appropriate name. In this case, we are appending the workflow
+step details to the filenames. For example, append <code>dup</code>
+after running the mark duplicates step.</p>
+</div>
+</div>
+</div>
+<p>We now have a pre-processed BAM file
+(<code>NA12878.sort.dup.bqsr.bam</code>) ready for variant calling.</p>
+<p>But before we proceed, let’s take a detour and run some summary
+statistics of the alignment data and QC. The commands below use FastQC
+and Picard to generate QC metrics, followed by multiQC to aggregate the
+data, producing an HTML report.</p>
+<div id="challenge-2.6" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-2.6" class="callout-inner">
+<h3 class="callout-title">Challenge 2.6</h3>
+<div class="callout-content">
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># FastQC</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="ex">fastqc</span> data/NA12878.chr20.region_1.fastq.gz <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>data/NA12878.chr20.region_2.fastq.gz <span class="dt">\</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>-o output/</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co"># CollectInsertSizeMetrics</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="ex">picard</span> CollectMultipleMetrics <span class="dt">\</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>R=reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a>I=output/NA12878.sort.dup.bqsr.bam <span class="dt">\</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a>O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics</span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co"># MultiQC</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="ex">multiqc</span> output/. <span class="at">-o</span> output/.</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>We have precomputed this and the resulting MultiQC report is <a href="https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report.html" class="external-link">here</a>.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -837,16 +971,21 @@ data.</li>
 <li>Sorting BAM files ensures that reads are ordered by their genomic
 coordinates.</li>
 <li>Duplicate reads are often introduced during PCR amplification and do
-not represent independent sequencing events. They identified and flagged
-by <code>picard MarkDuplicates</code>, so that they can be excluded from
-downstream analysis.</li>
+not represent independent sequencing events. They are identified and
+flagged by <code>picard MarkDuplicates</code>, so that they can be
+excluded from downstream analysis.</li>
 <li>BQSR, performed using GATK <code>BaseRecalibrator</code> and
 <code>ApplyBQSR</code> tools, adjusts the base quality scores by
 correcting systematic errors made introduced during sequencing.</li>
 </ul>
 </div>
 </div>
-</div></section><section id="aio-section-3-variant-calling"><p>Content from <a href="section-3-variant-calling.html">Section 3: Variant calling</a></p>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</section></section><section id="aio-section-3-variant-calling"><p>Content from <a href="section-3-variant-calling.html">Section 3: Variant calling</a></p>
 <hr>
 <p>Last updated on 2025-07-27 |
 
@@ -910,7 +1049,7 @@ reinforce the objectives.</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -941,7 +1080,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -968,7 +1107,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
