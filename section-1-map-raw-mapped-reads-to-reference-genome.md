@@ -6,14 +6,16 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- How should I set up a directory structure for a variant calling analysis pipeline?
+- How can I mapp raw sequencing data to the appropriate reference genome?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Design and create a clear directory structure for organising input, output, and intermediate files used in variant calling analysis pipeline.
+- Align raw sequencing data (`.fastq.gz` files) to a reference genome using an alignment tool (`BWA-MEM`).
+- Understand the role of reference genome files in the mapping process.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -21,9 +23,11 @@ exercises: 2
 
 Let’s start by setting up the directory structure for this analysis. The `data` directory is where the raw sequencing reads will be. All output files will be directed to the `output` directory. All reference files will be pointed to the `reference` directory. The command-line scripts are stored in simple bash script format in the `scripts` directory. For those interested, equivalent slurm scripts to run on Spartan are available in the `slurm_scripts` directory. Although all tools are installed on the server, we will create a `tools` directory.
 
-Let’s begin by creating a byobu-screen session (see [Summary and Setup](https://kezgitareja.github.io/Variant-calling-using-GATK4/index.html) for more help):
+Begin by creating a byobu-screen session (see [Summary and Setup](https://kezgitareja.github.io/Variant-calling-using-GATK4/index.html) for more help):
 
 ::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Chall
 
 ```
 cd
@@ -46,11 +50,8 @@ mkdir tools
 :::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::: callout
-
 #### Note
-
 All analysis is being carried out in the home directory (the directory you log in to).
-
 ::::::::::::::::::::::::::::::::::::::::::::::
 
 The data for this tutorial is sourced from the [International Genome Sample Resources](https://www.internationalgenome.org/data-portal/sample/NA12878). Raw sequencing reads from chromosome 20 are used in this tutorial. We have prepared the files which can be copied as follows:
