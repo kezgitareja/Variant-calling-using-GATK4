@@ -85,7 +85,42 @@ samtools flagstat output/NA12878.sort.bam
 
 The aim of this step is to locate and tag duplicate reads in the BAM file. Duplicate reads can arise due to several reasons. For more details go to [MarkDuplicates](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard).
 
+::::::::::::::::::::::::::::::::::::: challenge 
 
+#### Challenge 2.3
+
+```bash
+picard -Xmx7g MarkDuplicates \
+    I=output/NA12878.sort.bam \
+    O=output/NA12878.sort.dup.bam \
+    METRICS_FILE=output/marked_dup_metrics.txt
+```
+:::::::::::::::::::::::: solution 
+
+## Output
+
+Q: How many duplicate reads are in the duplicate marked BAM file?
+ 
+```output
+2032568 + 0 in total (QC-passed reads + QC-failed reads)
+2030516 + 0 primary
+2052 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+2032563 + 0 mapped (100.00% : N/A)
+2030511 + 0 primary mapped (100.00% : N/A)
+2030516 + 0 paired in sequencing
+1015258 + 0 read1
+1015258 + 0 read2
+2030284 + 0 properly paired (99.99% : N/A)
+2030510 + 0 with itself and mate mapped
+1 + 0 singletons (0.00% : N/A)
+182 + 0 with mate mapped to a different chr
+124 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+A: Looks like there are 7207 duplicate reads.
+:::::::::::::::::::::::::::::::::
 
 ## Base quality recalibration
 
