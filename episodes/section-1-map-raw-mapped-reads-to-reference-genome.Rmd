@@ -1,5 +1,5 @@
 ---
-title: 'Map raw mapped reads to reference genome'
+title: 'Map raw unmapped reads to reference genome'
 teaching: 10
 exercises: 2
 ---
@@ -19,7 +19,7 @@ exercises: 2
 
 ## Preparation and data import
 
-Let’s start by setting up the directory structure for this analysis. The data directory is where the raw sequencing reads will be. All output files will be directed to the output directory. All reference files will be pointed to the reference directory. The command-line scripts are stored in simple bash script format in the scripts directory. For those interested, equivalent slurm scripts to run on Spartan are available in the slurm_scripts directory. Although all tools are installed on the server, we will create a tools directory.
+Let’s start by setting up the directory structure for this analysis. The `data` directory is where the raw sequencing reads will be. All output files will be directed to the `output` directory. All reference files will be pointed to the `reference` directory. The command-line scripts are stored in simple bash script format in the `scripts` directory. For those interested, equivalent slurm scripts to run on Spartan are available in the `slurm_scripts` directory. Although all tools are installed on the server, we will create a `tools` directory.
 
 This is a lesson created via The Carpentries Workbench. It is written in
 [Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
