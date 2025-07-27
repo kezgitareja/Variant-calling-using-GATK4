@@ -367,6 +367,25 @@ data.</li>
 </div>
 </div>
 </div>
+<div id="keypoints1" class="callout keypoints">
+<div class="callout-square">
+<i class="callout-icon" data-feather="key"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Key Points</h3>
+<div class="callout-content">
+<ul><li>Sorting BAM files ensures that reads are ordered by their genomic
+coordinates.</li>
+<li>Duplicate reads are often introduced during PCR amplification and do
+not represent independent sequencing events. They identified and flagged
+by <code>picard MarkDuplicates</code>, so that they can be excluded from
+downstream analysis.</li>
+<li>BQSR, performed using GATK <code>BaseRecalibrator</code> and
+<code>ApplyBQSR</code> tools, adjusts the base quality scores by
+correcting systematic errors made introduced during sequencing.</li>
+</ul></div>
+</div>
+</div>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.

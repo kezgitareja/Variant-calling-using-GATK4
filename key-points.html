@@ -388,7 +388,18 @@ files used for the analysis.</li>
 <li>The <a href="https://github.com/lh3/bwa" class="external-link">BWA-MEM</a> algorithm is
 used to map raw sequencing data to the reference genome.</li>
 </ul></section><section id="section-2-prepare-analysis-ready-reads"><h2 class="section-heading"><a href="section-2-prepare-analysis-ready-reads.html">Prepare analysis ready reads</a></h2>
-<hr class="half-width"></section><section id="section-3-variant-calling"><h2 class="section-heading"><a href="section-3-variant-calling.html">Section 3: Variant calling</a></h2>
+<hr class="half-width">
+<ul>
+<li>Sorting BAM files ensures that reads are ordered by their genomic
+coordinates.</li>
+<li>Duplicate reads are often introduced during PCR amplification and do
+not represent independent sequencing events. They identified and flagged
+by <code>picard MarkDuplicates</code>, so that they can be excluded from
+downstream analysis.</li>
+<li>BQSR, performed using GATK <code>BaseRecalibrator</code> and
+<code>ApplyBQSR</code> tools, adjusts the base quality scores by
+correcting systematic errors made introduced during sequencing.</li>
+</ul></section><section id="section-3-variant-calling"><h2 class="section-heading"><a href="section-3-variant-calling.html">Section 3: Variant calling</a></h2>
 <hr class="half-width">
 <ul>
 <li>Use <code>.md</code> files for episodes when you want static
