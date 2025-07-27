@@ -395,9 +395,9 @@ the <code>samtools flagstat</code> command. More details are available
 <a href="https://www.htslib.org/doc/samtools-flagstat.html" class="external-link">here</a>. To
 decode the SAM flags visit <a href="https://broadinstitute.github.io/picard/explain-flags.html" class="external-link">Decoding
 SAM flags website</a>.</p>
-<div id="challenge-2.2" class="callout challenge">
+<div id="challenge-2.2" class="callout discussion">
 <div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
+<i class="callout-icon" data-feather="message-circle"></i>
 </div>
 <div id="challenge-2.2" class="callout-inner">
 <h3 class="callout-title">Challenge 2.2</h3>
@@ -408,6 +408,23 @@ SAM flags website</a>.</p>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="bu">cd</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">samtools</span> flagstat output/NA12878.sort.bam</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="challenge-2.2-1" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-2.2-1" class="callout-inner">
+<h3 class="callout-title">Challenge 2.2</h3>
+<div class="callout-content">
+<p>Let’s go to the home directory</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">cd</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">samtools</span> flagstat output/NA12878.sort.bam</span></code></pre>
 </div>
 </div>
 </div>
@@ -460,13 +477,13 @@ go to <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-Ma
 <div id="challenge-2.3" class="callout-inner">
 <h3 class="callout-title">Challenge 2.3</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">picard</span> <span class="at">-Xmx7g</span> MarkDuplicates <span class="dt">\</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>    I=output/NA12878.sort.bam <span class="dt">\</span></span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>    O=output/NA12878.sort.dup.bam <span class="dt">\</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>    METRICS_FILE=output/marked_dup_metrics.txt</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">picard</span> <span class="at">-Xmx7g</span> MarkDuplicates <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    I=output/NA12878.sort.bam <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    O=output/NA12878.sort.dup.bam <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    METRICS_FILE=output/marked_dup_metrics.txt</span></code></pre>
 </div>
 </div>
 </div>
@@ -492,7 +509,7 @@ go to <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-Ma
 </div>
 </section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
 <hr class="half-width"><p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
