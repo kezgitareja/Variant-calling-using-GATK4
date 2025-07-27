@@ -55,10 +55,6 @@ Let's go to the home directory:
 cd
 samtools flagstat output/NA12878.sort.bam
 ```
-
-:::::::::::::::::::::::: solution 
-
-## Output
  
 ```output
 2032568 + 0 in total (QC-passed reads + QC-failed reads)
@@ -80,7 +76,7 @@ samtools flagstat output/NA12878.sort.bam
 ```
 
 :::::::::::::::::::::::::::::::::
-:::::::::::::::::::::::::::::::::
+
 
 ## Mark duplicate reads
 
