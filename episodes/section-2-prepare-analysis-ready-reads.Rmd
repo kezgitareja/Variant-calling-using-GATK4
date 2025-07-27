@@ -22,11 +22,105 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Sort SAM/BAM
+
+The alignment file `NA12878.bam` is not sorted. Before proceeding, we should sort the BAM file using the [Picard](https://broadinstitute.github.io/picard/) tools.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.1
+
+```bash
+picard -Xmx7g SortSam \
+I=output/NA12878.bam \
+O=output/NA12878.sort.bam \
+VALIDATION_STRINGENCY=LENIENT \
+SORT_ORDER=coordinate \
+MAX_RECORDS_IN_RAM=3000000 \
+CREATE_INDEX=True
+```
+:::::::::::::::::::::::::::::::::
+
+The above command will create a coordinate sorted BAM file and an index (`.bai`) file. 
+
+Given that we now have a sorted BAM file, we can now generate some useful statistics. To do so we can use the `samtools flagstat` command. More details are available [here](https://www.htslib.org/doc/samtools-flagstat.html). To decode the SAM flags visit [Decoding SAM flags website](https://broadinstitute.github.io/picard/explain-flags.html).
+
+Let's go to the home directory:
+
+
+## Base quality recalibration
+
+The last step of pre-processing mapped reads is the base quality score recalibration (BQSR) stage. The GATK tools detects systematic errors made by the sequencing machine while estimating the accuracy of each base. The systematic errors can have various sources ranging from technical machine errors to the variability in the sequencing chemical reactions. The two step BQSR process applies machine learning to model the possible errors and adjust the base quality scores accordingly. More details [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR).
+
+Let's go to the home directory again, and build the model:
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.4
+
+```bash
+cd
+gatk --java-options "-Xmx7g" BaseRecalibrator \
+    -I output/NA12878.sort.dup.bam \
+    -R reference/hg38/Homo_sapiens_assembly38.fasta \
+    --known-sites reference/hg38/dbsnp_146.hg38.vcf.gz \
+    -O output/recal_data.table
+```
+:::::::::::::::::::::::::::::::::
+
+Then, apply the model to adjust the base quality scores:
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.5
+
+```bash
+gatk --java-options "-Xmx7g" ApplyBQSR \
+    -I output/NA12878.sort.dup.bam \
+    -R reference/hg38/Homo_sapiens_assembly38.fasta \
+    --bqsr-recal-file output/recal_data.table \
+    -O output/NA12878.sort.dup.bqsr.bam
+```
+:::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::: callout
+
+#### Note
+In a workflow such as this, it is a good practice to give the output files an appropriate name. In this case, we are appending the workflow step details to the filenames. For example, append `dup` after running the mark duplicates step.
+
+::::::::::::::::::::::::::::::::::::::::::::::
+
+We now have a pre-processed BAM file (`NA12878.sort.dup.bqsr.bam`) ready for variant calling.
+
+But before we proceed, let’s take a detour and run some summary statistics of the alignment data and QC. The commands below use FastQC and Picard to generate QC metrics, followed by multiQC to aggregate the data, producing an HTML report.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.6
+
+```bash
+# FastQC
+fastqc data/NA12878.chr20.region_1.fastq.gz \
+data/NA12878.chr20.region_2.fastq.gz \
+-o output/
+
+# CollectInsertSizeMetrics
+picard CollectMultipleMetrics \
+R=reference/hg38/Homo_sapiens_assembly38.fasta \
+I=output/NA12878.sort.dup.bqsr.bam \
+O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics
+
+# MultiQC
+multiqc output/. -o output/.
+```
+:::::::::::::::::::::::::::::::::
+
+We have precomputed this and the resulting MultiQC report is [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report.html).
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - Sorting BAM files ensures that reads are ordered by their genomic coordinates.
-- Duplicate reads are often introduced during PCR amplification and do not represent independent sequencing events. They identified and flagged by `picard MarkDuplicates`, so that they can be excluded from downstream analysis.
+- Duplicate reads are often introduced during PCR amplification and do not represent independent sequencing events. They are identified and flagged by `picard MarkDuplicates`, so that they can be excluded from downstream analysis.
 - BQSR, performed using GATK `BaseRecalibrator` and `ApplyBQSR` tools, adjusts the base quality scores by correcting systematic errors made introduced during sequencing. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
