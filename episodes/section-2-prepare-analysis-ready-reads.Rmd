@@ -98,9 +98,7 @@ picard -Xmx7g MarkDuplicates \
 ```
 :::::::::::::::::::::::: solution 
 
-## Output
-
-Q: How many duplicate reads are in the duplicate marked BAM file?
+## Q: How many duplicate reads are in the duplicate marked BAM file?
  
 ```output
 2032568 + 0 in total (QC-passed reads + QC-failed reads)
@@ -189,9 +187,10 @@ O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics
 # MultiQC
 multiqc output/. -o output/.
 ```
-:::::::::::::::::::::::::::::::::
 
 We have precomputed this and the resulting MultiQC report is [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report.html).
+
+:::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
