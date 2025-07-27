@@ -48,6 +48,20 @@ Let's go to the home directory
 cd
 samtools flagstat output/NA12878.sort.bam
 ```
+
+:::::::::::::::::::::::::::::::::
+
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.2
+
+Let's go to the home directory
+
+```bash
+cd
+samtools flagstat output/NA12878.sort.bam
+```
 :::::::::::::::::::::::: solution 
 
 ## Output
