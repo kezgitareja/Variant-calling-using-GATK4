@@ -49,12 +49,13 @@ Let's go to the home directory:
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-#### Challenge 2.2
+## Challenge 2.2
 
 ```bash
 cd
 samtools flagstat output/NA12878.sort.bam
 ```
+
 :::::::::::::::::::::::: solution 
 
 ## Output
@@ -77,7 +78,12 @@ samtools flagstat output/NA12878.sort.bam
 182 + 0 with mate mapped to a different chr
 124 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
+
 :::::::::::::::::::::::::::::::::
+
+## Mark duplicate reads
+
+The aim of this step is to locate and tag duplicate reads in the BAM file. Duplicate reads can arise due to several reasons. For more details go to [MarkDuplicates](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard).
 
 
 
