@@ -95,7 +95,9 @@ picard -Xmx7g MarkDuplicates \
 ```
 :::::::::::::::::::::::: solution 
 
-## Q: How many duplicate reads are in the duplicate marked BAM file?
+## Output
+
+Q: How many duplicate reads are in the duplicate marked BAM file?
  
 ```output
 2032568 + 0 in total (QC-passed reads + QC-failed reads)
@@ -115,7 +117,7 @@ picard -Xmx7g MarkDuplicates \
 182 + 0 with mate mapped to a different chr
 124 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
-Looks like there are 7207 duplicate reads.
+A: Looks like there are 7207 duplicate reads.
 :::::::::::::::::::::::::::::::::
 
 ## Base quality recalibration
