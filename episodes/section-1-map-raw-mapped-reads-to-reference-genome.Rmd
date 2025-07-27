@@ -1,5 +1,5 @@
 ---
-title: 'Map raw unmapped reads to reference genome'
+title: 'Map raw sequencing reads to reference genome'
 teaching: 10
 exercises: 2
 ---
@@ -7,7 +7,7 @@ exercises: 2
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - How should I set up a directory structure for a variant calling analysis pipeline?
-- How can I mapp raw sequencing data to the appropriate reference genome?
+- How can I map raw sequencing data to the appropriate reference genome?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -27,16 +27,21 @@ Begin by creating a byobu-screen session (see [Summary and Setup](https://kezgit
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-#### Chall
+#### Challenge 1.1
 
-```
+```bash
 cd
 byobu-screen -S workshop
 ```
+:::::::::::::::::::::::::::::::::
 
 Create workshop directories:
 
-```
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 1.2
+
+```bash
 mkdir data
 mkdir output
 mkdir reference
@@ -46,23 +51,26 @@ mkdir slurm_scripts
 mkdir temp
 mkdir tools
 ```
-
 :::::::::::::::::::::::::::::::::
 
+
 ::::::::::::::::::::::::::::::::::::::: callout
+
 #### Note
 All analysis is being carried out in the home directory (the directory you log in to).
+
 ::::::::::::::::::::::::::::::::::::::::::::::
 
 The data for this tutorial is sourced from the [International Genome Sample Resources](https://www.internationalgenome.org/data-portal/sample/NA12878). Raw sequencing reads from chromosome 20 are used in this tutorial. We have prepared the files which can be copied as follows:
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-```
+#### Challenge 1.3
+
+```bash
 cp -p /mnt/shared_data/NA12878.chr20.region_1.fastq.gz data/.
 cp -p /mnt/shared_data/NA12878.chr20.region_2.fastq.gz data/.
 ```
-
 :::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::: callout
@@ -77,23 +85,26 @@ Next, we need to prepare the reference data. Luckily, we have downloaded the dat
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-```
+#### Challenge 1.4
+
+```bash
 ln -s /mnt/shared_data/* reference/hg38/.
 ```
-
 :::::::::::::::::::::::::::::::::
 
 There are several files in the reference directory. These included the GATK bundle of reference files downloaded from [here](ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/). Additional files include in the directory are the BWA index files generated for the reference genome.
 
 ## Align genome
 
-Run the command below to map the raw sequencing data to the Homo sapiens (human) genome assembly GRCh38 (hg38). We are using the [BWA-MEM](https://github.com/lh3/bwa) algorithms for mapping DNA sequences against large reference genomes. Note that we have already run the created the BWA index files by running the command `bwa index reference/hg38/Homo_sapiens_assembly38.fasta`.
+Run the command below to map the raw sequencing data to the Homo sapiens (human) genome assembly GRCh38 (hg38). We are using the [BWA-MEM](https://github.com/lh3/bwa) algorithm for mapping DNA sequences against large reference genomes. Note that we have already run the created the BWA index files by running the command `bwa index reference/hg38/Homo_sapiens_assembly38.fasta`.
 
 Run BWA as follows, but first navigate to the scripts folder:
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-```
+#### Challenge 1.5
+
+```bash
 bwa mem -M -t 2 \
 -R "@RG\tID:SRR622461.7\tSM:NA12878\tLB:ERR194147\tPL:ILLUMINA" \
 reference/hg38/Homo_sapiens_assembly38.fasta \
@@ -101,7 +112,6 @@ data/NA12878.chr20.region_1.fastq.gz \
 data/NA12878.chr20.region_2.fastq.gz | \
 samtools view -b -h -o output/NA12878.bam -
 ```
-
 :::::::::::::::::::::::::::::::::
 
 There are two parts to the command here. The first part uses BWA to perform the alignment and the second part takes the output from BWA and uses Samtools to convert the output to the BAM format.
@@ -110,10 +120,9 @@ At the end of this step you should have a file called `NA12878.bam` in the `outp
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- This variant calling analysis pipeline is run on [Nectar](https://ardc.edu.au/services/ardc-nectar-research-cloud/) Instance using enhanced terminal multiplexer `byobu-screen`.
+- A directory structure helps organise input, output, and intermediate files used for the analysis.
+- The [BWA-MEM](https://github.com/lh3/bwa) algorithm is used to map raw sequencing data to the reference genome. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
