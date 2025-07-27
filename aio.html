@@ -449,7 +449,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -476,7 +476,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -777,8 +777,11 @@ any links that you are not going to use.
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How do you write a lesson using R Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<li>Why is it important to sort SAM/BAM files in a variant calling
+analysis pipeline?</li>
+<li>What are duplicate reads? How do I identify them in a BAM file?</li>
+<li>What is base quality score recalibration (BQSR)? How does it improve
+the accuracy of variant calls?</li>
 </ul>
 </div>
 </div>
@@ -788,215 +791,22 @@ any links that you are not going to use.
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
 <ul>
-<li>Explain how to use markdown with the new lesson template</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<li>Sort aligned sequencing reads (SAM/BAM files) by genomic coordinates
+using <code>picard SortSam</code>.</li>
+<li>Generate basic alignment statistics using
+<code>samtools flagstat</code>.</li>
+<li>Identify and mark duplicate reads using
+<code>picard MarkDuplicates</code>.</li>
+<li>Perform BQSR using GATK <code>BaseRecalibrator</code> and
+<code>ApplyBQSR</code> tools.</li>
+<li>Run summary statistics and quality control of the alignment
+data.</li>
 </ul>
 </div>
 </div>
 </div>
 </div>
-</div>
-<section><h2 class="section-heading" id="sort-sambam">Sort SAM/BAM<a class="anchor" aria-label="anchor" href="#sort-sambam"></a>
-</h2>
-<hr class="half-width">
-<p>The alignment file <code>NA12878.bam</code> is not sorted. Before
-proceeding, we should sort the BAM file using the <a href="https://broadinstitute.github.io/picard/" class="external-link">Picard</a> tools.</p>
-<div id="challenge-2.1" class="callout discussion">
-<div class="callout-square">
-<i class="callout-icon" data-feather="message-circle"></i>
-</div>
-<div id="challenge-2.1" class="callout-inner">
-<h3 class="callout-title">Challenge 2.1</h3>
-<div class="callout-content">
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="ex">picard</span> <span class="at">-Xmx7g</span> SortSam <span class="dt">\</span></span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>I=output/NA12878.bam <span class="dt">\</span></span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>O=output/NA12878.sort.bam <span class="dt">\</span></span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>VALIDATION_STRINGENCY=LENIENT <span class="dt">\</span></span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>SORT_ORDER=coordinate <span class="dt">\</span></span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>MAX_RECORDS_IN_RAM=3000000 <span class="dt">\</span></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>CREATE_INDEX=True</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<p>The above command will create a coordinate sorted BAM file and an
-index (<code>.bai</code>) file. Given that we now have a sorted BAM
-file, we can now generate some useful statistics. To do so we can use
-the <code>samtools flagstat</code> command. More details are available
-<a href="https://www.htslib.org/doc/samtools-flagstat.html" class="external-link">here</a>. To
-decode the SAM flags visit <a href="https://broadinstitute.github.io/picard/explain-flags.html" class="external-link">Decoding
-SAM flags website</a>.</p>
-<div id="challenge-2.2" class="callout discussion">
-<div class="callout-square">
-<i class="callout-icon" data-feather="message-circle"></i>
-</div>
-<div id="challenge-2.2" class="callout-inner">
-<h3 class="callout-title">Challenge 2.2</h3>
-<div class="callout-content">
-<p>Let’s go to the home directory</p>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="bu">cd</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="ex">samtools</span> flagstat output/NA12878.sort.bam</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div id="challenge-2.2-1" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="challenge-2.2-1" class="callout-inner">
-<h3 class="callout-title">Challenge 2.2</h3>
-<div class="callout-content">
-<p>Let’s go to the home directory</p>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="bu">cd</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="ex">samtools</span> flagstat output/NA12878.sort.bam</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1"> Output </h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
-<div class="accordion-body">
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>2032568 + 0 in total (QC-passed reads + QC-failed reads)
-2030516 + 0 primary
-2052 + 0 secondary
-0 + 0 supplementary
-0 + 0 duplicates
-0 + 0 primary duplicates
-2032563 + 0 mapped (100.00% : N/A)
-2030511 + 0 primary mapped (100.00% : N/A)
-2030516 + 0 paired in sequencing
-1015258 + 0 read1
-1015258 + 0 read2
-2030284 + 0 properly paired (99.99% : N/A)
-2030510 + 0 with itself and mate mapped
-1 + 0 singletons (0.00% : N/A)
-182 + 0 with mate mapped to a different chr
-124 + 0 with mate mapped to a different chr (mapQ&gt;=5)</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="mark-duplicate-reads" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="mark-duplicate-reads" class="callout-inner">
-<h3 class="callout-title">Mark duplicate reads</h3>
-<div class="callout-content">
-<p>The aim of this step is to locate and tag duplicate reads in the BAM
-file. Duplicate reads can arise due to several reasons. For more details
-go to <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard" class="external-link">MarkDuplicates</a>.</p>
-<div id="challenge-2.3" class="callout discussion">
-<div class="callout-square">
-<i class="callout-icon" data-feather="message-circle"></i>
-</div>
-<div id="challenge-2.3" class="callout-inner">
-<h3 class="callout-title">Challenge 2.3</h3>
-<div class="callout-content">
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">picard</span> <span class="at">-Xmx7g</span> MarkDuplicates <span class="dt">\</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    I=output/NA12878.sort.bam <span class="dt">\</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    O=output/NA12878.sort.dup.bam <span class="dt">\</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    METRICS_FILE=output/marked_dup_metrics.txt</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="section level2">
-<h2 id="challenge-2-how-do-you-nest-solutions-within-challenge-blocks">Challenge 2: how do you nest solutions within challenge blocks?<a class="anchor" aria-label="anchor" href="#challenge-2-how-do-you-nest-solutions-within-challenge-blocks"></a>
-</h2>
-</div>
-</div>
-</div>
-</div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
-<div class="accordion-body">
-<p>You can add a line with at least three colons and a
-<code>solution</code> tag.</p>
-</div>
-</div>
-</div>
-</div>
-</section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
-</h2>
-<hr class="half-width">
-<p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">pie</span><span class="op">(</span></span>
-<span>  <span class="fu">c</span><span class="op">(</span>Sky <span class="op">=</span> <span class="fl">78</span>, <span class="st">"Sunny side of pyramid"</span> <span class="op">=</span> <span class="fl">17</span>, <span class="st">"Shady side of pyramid"</span> <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, </span>
-<span>  init.angle <span class="op">=</span> <span class="fl">315</span>, </span>
-<span>  col <span class="op">=</span> <span class="fu">c</span><span class="op">(</span><span class="st">"deepskyblue"</span>, <span class="st">"yellow"</span>, <span class="st">"yellow3"</span><span class="op">)</span>, </span>
-<span>  border <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span><span class="op">)</span></span></code></pre>
-</div>
-<figure style="text-align: center"><img src="fig/section-2-prepare-analysis-ready-reads-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid" class="figure mx-auto d-block"><figcaption>
-Sun arise each and every morning
-</figcaption></figure><p>Or you can use pandoc markdown for static figures with the following
-syntax:</p>
-<p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
-<figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure></section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a>
-</h2>
-<hr class="half-width">
-<p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
-create dynamic reports with {knitr}, so we now use mathjax to describe
-this:</p>
-<p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
-<p>Cool, right?</p>
-<div id="keypoints1" class="callout keypoints">
-<div class="callout-square">
-<i class="callout-icon" data-feather="key"></i>
-</div>
-<div class="callout-inner">
-<h3 class="callout-title">Key Points</h3>
-<div class="callout-content">
-<ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
-</ul>
-</div>
-</div>
-</div>
-<!--
-Place links that you need to refer to multiple times across pages here. Delete
-any links that you are not going to use.
- -->
-</section></section><section id="aio-section-3-variant-calling"><p>Content from <a href="section-3-variant-calling.html">Section 3: Variant calling</a></p>
+</div></section><section id="aio-section-3-variant-calling"><p>Content from <a href="section-3-variant-calling.html">Section 3: Variant calling</a></p>
 <hr>
 <p>Last updated on 2025-07-27 |
 
