@@ -475,6 +475,11 @@ go to <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-Ma
 </button>
 <div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">samtools</span> flagstat output/NA12878.sort.dup.bam</span></code></pre>
+</div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -482,14 +487,14 @@ go to <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-Ma
 2030516 + 0 primary
 2052 + 0 secondary
 0 + 0 supplementary
-0 + 0 duplicates
-0 + 0 primary duplicates
+7207 + 0 duplicates
+7207 + 0 primary duplicates
 2032563 + 0 mapped (100.00% : N/A)
 2030511 + 0 primary mapped (100.00% : N/A)
 2030516 + 0 paired in sequencing
 1015258 + 0 read1
 1015258 + 0 read2
-2030284 + 0 properly paired (99.99% : N/A)
+2030298 + 0 properly paired (99.99% : N/A)
 2030510 + 0 with itself and mate mapped
 1 + 0 singletons (0.00% : N/A)
 182 + 0 with mate mapped to a different chr
@@ -517,15 +522,15 @@ details <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-
 <div id="challenge-2.4" class="callout-inner">
 <h3 class="callout-title">Challenge 2.4</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="bu">cd</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> BaseRecalibrator <span class="dt">\</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="at">-I</span> output/NA12878.sort.dup.bam <span class="dt">\</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">--known-sites</span> reference/hg38/dbsnp_146.hg38.vcf.gz <span class="dt">\</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">-O</span> output/recal_data.table</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="bu">cd</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> BaseRecalibrator <span class="dt">\</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="at">-I</span> output/NA12878.sort.dup.bam <span class="dt">\</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    <span class="at">--known-sites</span> reference/hg38/dbsnp_146.hg38.vcf.gz <span class="dt">\</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    <span class="at">-O</span> output/recal_data.table</span></code></pre>
 </div>
 </div>
 </div>
@@ -538,14 +543,14 @@ details <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-
 <div id="challenge-2.5" class="callout-inner">
 <h3 class="callout-title">Challenge 2.5</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> ApplyBQSR <span class="dt">\</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    <span class="at">-I</span> output/NA12878.sort.dup.bam <span class="dt">\</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    <span class="at">--bqsr-recal-file</span> output/recal_data.table <span class="dt">\</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    <span class="at">-O</span> output/NA12878.sort.dup.bqsr.bam</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> ApplyBQSR <span class="dt">\</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    <span class="at">-I</span> output/NA12878.sort.dup.bam <span class="dt">\</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>    <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>    <span class="at">--bqsr-recal-file</span> output/recal_data.table <span class="dt">\</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>    <span class="at">-O</span> output/NA12878.sort.dup.bqsr.bam</span></code></pre>
 </div>
 </div>
 </div>
@@ -577,22 +582,22 @@ statistics of the alignment data and QC.</p>
 <div class="callout-content">
 <p>The commands below use FastQC and Picard to generate QC metrics,
 followed by multiQC to aggregate the data, producing an HTML report.</p>
-<div class="codewrapper sourceCode" id="cb8">
+<div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># FastQC</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="ex">fastqc</span> data/NA12878.chr20.region_1.fastq.gz <span class="dt">\</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>data/NA12878.chr20.region_2.fastq.gz <span class="dt">\</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>-o output/</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># CollectInsertSizeMetrics</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="ex">picard</span> CollectMultipleMetrics <span class="dt">\</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>R=reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>I=output/NA12878.sort.dup.bqsr.bam <span class="dt">\</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics</span>
-<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a><span class="co"># MultiQC</span></span>
-<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a><span class="ex">multiqc</span> output/. <span class="at">-o</span> output/.</span></code></pre>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># FastQC</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="ex">fastqc</span> data/NA12878.chr20.region_1.fastq.gz <span class="dt">\</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>data/NA12878.chr20.region_2.fastq.gz <span class="dt">\</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>-o output/</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co"># CollectInsertSizeMetrics</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="ex">picard</span> CollectMultipleMetrics <span class="dt">\</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>R=reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>I=output/NA12878.sort.dup.bqsr.bam <span class="dt">\</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics</span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co"># MultiQC</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="ex">multiqc</span> output/. <span class="at">-o</span> output/.</span></code></pre>
 </div>
 <p>We have precomputed this and the resulting MultiQC report is <a href="https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report.html" class="external-link">here</a>.</p>
 </div>
