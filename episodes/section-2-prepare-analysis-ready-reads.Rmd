@@ -22,3 +22,60 @@ exercises: 2
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
+## Sort SAM/BAM
+
+The alignment file `NA12878.bam` is not sorted. Before proceeding, we should sort the BAM file using the [Picard](https://broadinstitute.github.io/picard/) tools.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.1
+
+```bash
+picard -Xmx7g SortSam \
+I=output/NA12878.bam \
+O=output/NA12878.sort.bam \
+VALIDATION_STRINGENCY=LENIENT \
+SORT_ORDER=coordinate \
+MAX_RECORDS_IN_RAM=3000000 \
+CREATE_INDEX=True
+```
+:::::::::::::::::::::::::::::::::
+
+The above command will create a coordinate sorted BAM file and an index (`.bai`) file. 
+
+Given that we now have a sorted BAM file, we can now generate some useful statistics. To do so we can use the `samtools flagstat` command. More details are available [here](https://www.htslib.org/doc/samtools-flagstat.html). To decode the SAM flags visit [Decoding SAM flags website](https://broadinstitute.github.io/picard/explain-flags.html).
+
+Let's go to the home directory:
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.2
+
+```bash
+cd
+samtools flagstat output/NA12878.sort.bam
+```
+:::::::::::::::::::::::: solution 
+
+## Output
+ 
+```output
+2032568 + 0 in total (QC-passed reads + QC-failed reads)
+2030516 + 0 primary
+2052 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+2032563 + 0 mapped (100.00% : N/A)
+2030511 + 0 primary mapped (100.00% : N/A)
+2030516 + 0 paired in sequencing
+1015258 + 0 read1
+1015258 + 0 read2
+2030284 + 0 properly paired (99.99% : N/A)
+2030510 + 0 with itself and mate mapped
+1 + 0 singletons (0.00% : N/A)
+182 + 0 with mate mapped to a different chr
+124 + 0 with mate mapped to a different chr (mapQ>=5)
+```
+:::::::::::::::::::::::::::::::::
+
