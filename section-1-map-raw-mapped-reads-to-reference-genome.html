@@ -346,8 +346,10 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How do you write a lesson using R Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<ul><li>How should I set up a directory structure for a variant calling
+analysis pipeline?</li>
+<li>How can I mapp raw sequencing data to the appropriate reference
+genome?</li>
 </ul></div>
 </div>
 </div>
@@ -355,9 +357,13 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Explain how to use markdown with the new lesson template</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<ul><li>Design and create a clear directory structure for organising input,
+output, and intermediate files used in variant calling analysis
+pipeline.</li>
+<li>Align raw sequencing data (<code>.fastq.gz</code> files) to a
+reference genome using an alignment tool (<code>BWA-MEM</code>).</li>
+<li>Understand the role of reference genome files in the mapping
+process.</li>
 </ul></div>
 </div>
 </div>
@@ -374,14 +380,14 @@ those interested, equivalent slurm scripts to run on Spartan are
 available in the <code>slurm_scripts</code> directory. Although all
 tools are installed on the server, we will create a <code>tools</code>
 directory.</p>
-<p>Let’s begin by creating a byobu-screen session (see <a href="https://kezgitareja.github.io/Variant-calling-using-GATK4/index.html" class="external-link">Summary
+<p>Begin by creating a byobu-screen session (see <a href="https://kezgitareja.github.io/Variant-calling-using-GATK4/index.html" class="external-link">Summary
 and Setup</a> for more help):</p>
-<div id="discussion1" class="callout discussion">
+<div id="chall" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="chall" class="callout-inner">
+<h3 class="callout-title">Chall</h3>
 <div class="callout-content">
 <pre><code>cd
 byobu-screen -S workshop</code></pre>
