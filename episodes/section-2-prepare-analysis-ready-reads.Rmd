@@ -6,14 +6,19 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- Why is it important to sort SAM/BAM files in a variant calling analysis pipeline?
+- What are duplicate reads? How do I identify them in a BAM file?
+- What is base quality score recalibration (BQSR)? How does it improve the accuracy of variant calls?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Sort aligned sequencing reads (SAM/BAM files) by genomic coordinates using `picard SortSam`.
+- Generate basic alignment statistics using `samtools flagstat`.
+- Identify and mark duplicate reads using `picard MarkDuplicates`.
+- Perform BQSR using GATK `BaseRecalibrator` and `ApplyBQSR` tools.
+- Run summary statistics and quality control of the alignment data. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -36,27 +41,15 @@ CREATE_INDEX=True
 ```
 :::::::::::::::::::::::::::::::::
 
-The above command will create a coordinate sorted BAM file and an index (`.bai`) file. Given that we now have a sorted BAM file, we can now generate some useful statistics. To do so we can use the `samtools flagstat` command. More details are available [here](https://www.htslib.org/doc/samtools-flagstat.html). To decode the SAM flags visit [Decoding SAM flags website](https://broadinstitute.github.io/picard/explain-flags.html).
+The above command will create a coordinate sorted BAM file and an index (`.bai`) file. 
+
+Given that we now have a sorted BAM file, we can now generate some useful statistics. To do so we can use the `samtools flagstat` command. More details are available [here](https://www.htslib.org/doc/samtools-flagstat.html). To decode the SAM flags visit [Decoding SAM flags website](https://broadinstitute.github.io/picard/explain-flags.html).
+
+Let's go to the home directory:
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
 #### Challenge 2.2
-
-Let's go to the home directory
-
-```bash
-cd
-samtools flagstat output/NA12878.sort.bam
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-#### Challenge 2.2
-
-Let's go to the home directory
 
 ```bash
 cd
@@ -100,53 +93,107 @@ picard -Xmx7g MarkDuplicates \
     O=output/NA12878.sort.dup.bam \
     METRICS_FILE=output/marked_dup_metrics.txt
 ```
-:::::::::::::::::::::::::::::::::
-
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
 :::::::::::::::::::::::: solution 
 
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-```{r pyramid, fig.alt = "pie chart illusion of a pyramid", fig.cap = "Sun arise each and every morning"}
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
+## Q: How many duplicate reads are in the duplicate marked BAM file?
+ 
+```output
+2032568 + 0 in total (QC-passed reads + QC-failed reads)
+2030516 + 0 primary
+2052 + 0 secondary
+0 + 0 supplementary
+0 + 0 duplicates
+0 + 0 primary duplicates
+2032563 + 0 mapped (100.00% : N/A)
+2030511 + 0 primary mapped (100.00% : N/A)
+2030516 + 0 paired in sequencing
+1015258 + 0 read1
+1015258 + 0 read2
+2030284 + 0 properly paired (99.99% : N/A)
+2030510 + 0 with itself and mate mapped
+1 + 0 singletons (0.00% : N/A)
+182 + 0 with mate mapped to a different chr
+124 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
-Or you can use pandoc markdown for static figures with the following syntax:
+Looks like there are 7207 duplicate reads.
+:::::::::::::::::::::::::::::::::
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+## Base quality recalibration
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
+The last step of pre-processing mapped reads is the base quality score recalibration (BQSR) stage. The GATK tools detects systematic errors made by the sequencing machine while estimating the accuracy of each base. The systematic errors can have various sources ranging from technical machine errors to the variability in the sequencing chemical reactions. The two step BQSR process applies machine learning to model the possible errors and adjust the base quality scores accordingly. More details [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890531-Base-Quality-Score-Recalibration-BQSR).
 
-## Math
+Let's go to the home directory again, and build the model:
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+::::::::::::::::::::::::::::::::::::: challenge 
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+#### Challenge 2.4
 
-Cool, right?
+```bash
+cd
+gatk --java-options "-Xmx7g" BaseRecalibrator \
+    -I output/NA12878.sort.dup.bam \
+    -R reference/hg38/Homo_sapiens_assembly38.fasta \
+    --known-sites reference/hg38/dbsnp_146.hg38.vcf.gz \
+    -O output/recal_data.table
+```
+:::::::::::::::::::::::::::::::::
+
+Then, apply the model to adjust the base quality scores:
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 2.5
+
+```bash
+gatk --java-options "-Xmx7g" ApplyBQSR \
+    -I output/NA12878.sort.dup.bam \
+    -R reference/hg38/Homo_sapiens_assembly38.fasta \
+    --bqsr-recal-file output/recal_data.table \
+    -O output/NA12878.sort.dup.bqsr.bam
+```
+:::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::: callout
+
+#### Note
+In a workflow such as this, it is a good practice to give the output files an appropriate name. In this case, we are appending the workflow step details to the filenames. For example, append `dup` after running the mark duplicates step.
+
+::::::::::::::::::::::::::::::::::::::::::::::
+
+We now have a pre-processed BAM file (`NA12878.sort.dup.bqsr.bam`) ready for variant calling.
+
+But before we proceed, let’s take a detour and run some summary statistics of the alignment data and QC.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### BAM Statistics and QC
+
+The commands below use FastQC and Picard to generate QC metrics, followed by multiQC to aggregate the data, producing an HTML report.
+
+```bash
+# FastQC
+fastqc data/NA12878.chr20.region_1.fastq.gz \
+data/NA12878.chr20.region_2.fastq.gz \
+-o output/
+
+# CollectInsertSizeMetrics
+picard CollectMultipleMetrics \
+R=reference/hg38/Homo_sapiens_assembly38.fasta \
+I=output/NA12878.sort.dup.bqsr.bam \
+O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics
+
+# MultiQC
+multiqc output/. -o output/.
+```
+
+We have precomputed this and the resulting MultiQC report is [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report.html).
+:::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Sorting BAM files ensures that reads are ordered by their genomic coordinates.
+- Duplicate reads are often introduced during PCR amplification and do not represent independent sequencing events. They identified and flagged by `picard MarkDuplicates`, so that they can be excluded from downstream analysis.
+- BQSR, performed using GATK `BaseRecalibrator` and `ApplyBQSR` tools, adjusts the base quality scores by correcting systematic errors made introduced during sequencing. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
