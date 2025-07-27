@@ -23,94 +23,89 @@ Let’s start by setting up the directory structure for this analysis. The `data
 
 Let’s begin by creating a byobu-screen session (see [Summary and Setup](https://kezgitareja.github.io/Variant-calling-using-GATK4/index.html) for more help):
 
+::::::::::::::::::::::::::::::::::::: challenge 
 
+```
+cd
+byobu-screen -S workshop
+```
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
+Create workshop directories:
 
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
+```
+mkdir data
+mkdir output
+mkdir reference
+mkdir reference/hg38
+mkdir scripts
+mkdir slurm_scripts
+mkdir temp
+mkdir tools
+```
 
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
+:::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+::::::::::::::::::::::::::::::::::::::: callout
 
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
+#### Note
 
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+All analysis is being carried out in the home directory (the directory you log in to).
+
+::::::::::::::::::::::::::::::::::::::::::::::
+
+The data for this tutorial is sourced from the [International Genome Sample Resources](https://www.internationalgenome.org/data-portal/sample/NA12878). Raw sequencing reads from chromosome 20 are used in this tutorial. We have prepared the files which can be copied as follows:
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
 ```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
+cp -p /mnt/shared_data/NA12878.chr20.region_1.fastq.gz data/.
+cp -p /mnt/shared_data/NA12878.chr20.region_2.fastq.gz data/.
 ```
 
 :::::::::::::::::::::::::::::::::
 
+::::::::::::::::::::::::::::::::::::::: callout
 
-## Challenge 2: how do you nest solutions within challenge blocks?
+#### Note
 
-:::::::::::::::::::::::: solution 
+To perform quality control checks on the raw fastq data, use the tool [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/). Another useful QC tool output aggregator is the [MultiQC](https://seqera.io/multiqc/) tool. MultiQC aggregates the output from several tools and outputs a single QC report for all samples. We will have a look at some of the QC data later in this section.
 
-You can add a line with at least three colons and a `solution` tag.
+::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
+Next, we need to prepare the reference data. Luckily, we have downloaded the data and all we need to do is to create a [symbolic link](https://servicenow.iu.edu/kb?id=kb_article_view&sysparm_article=KB0023928) to the data folder as follows:
 
-## Figures
+::::::::::::::::::::::::::::::::::::: challenge 
 
-You can include figures generated from R Markdown:
-
-
-``` r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
+```
+ln -s /mnt/shared_data/* reference/hg38/.
 ```
 
-<div class="figure" style="text-align: center">
-<img src="fig/section-1-map-raw-mapped-reads-to-reference-genome-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
-</div>
-Or you can use pandoc markdown for static figures with the following syntax:
+:::::::::::::::::::::::::::::::::
 
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
+There are several files in the reference directory. These included the GATK bundle of reference files downloaded from [here](ftp://gsapubftp-anonymous@ftp.broadinstitute.org/bundle/hg38/). Additional files include in the directory are the BWA index files generated for the reference genome.
 
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
+## Align genome
 
-## Math
+Run the command below to map the raw sequencing data to the Homo sapiens (human) genome assembly GRCh38 (hg38). We are using the [BWA-MEM](https://github.com/lh3/bwa) algorithms for mapping DNA sequences against large reference genomes. Note that we have already run the created the BWA index files by running the command `bwa index reference/hg38/Homo_sapiens_assembly38.fasta`.
 
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
+Run BWA as follows, but first navigate to the scripts folder:
 
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
+::::::::::::::::::::::::::::::::::::: challenge 
 
-Cool, right?
+```
+bwa mem -M -t 2 \
+-R "@RG\tID:SRR622461.7\tSM:NA12878\tLB:ERR194147\tPL:ILLUMINA" \
+reference/hg38/Homo_sapiens_assembly38.fasta \
+data/NA12878.chr20.region_1.fastq.gz \
+data/NA12878.chr20.region_2.fastq.gz | \
+samtools view -b -h -o output/NA12878.bam -
+```
+
+:::::::::::::::::::::::::::::::::
+
+There are two parts to the command here. The first part uses BWA to perform the alignment and the second part takes the output from BWA and uses Samtools to convert the output to the BAM format.
+
+At the end of this step you should have a file called `NA12878.bam` in the `output` directory.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
