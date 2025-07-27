@@ -74,9 +74,7 @@ samtools flagstat output/NA12878.sort.bam
 182 + 0 with mate mapped to a different chr
 124 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
-
 :::::::::::::::::::::::::::::::::
-
 
 ## Mark duplicate reads
 
@@ -162,11 +160,13 @@ In a workflow such as this, it is a good practice to give the output files an ap
 
 We now have a pre-processed BAM file (`NA12878.sort.dup.bqsr.bam`) ready for variant calling.
 
-But before we proceed, let’s take a detour and run some summary statistics of the alignment data and QC. The commands below use FastQC and Picard to generate QC metrics, followed by multiQC to aggregate the data, producing an HTML report.
+But before we proceed, let’s take a detour and run some summary statistics of the alignment data and QC. 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-#### Challenge 2.6
+#### BAM statistics and QC
+
+The commands below use FastQC and Picard to generate QC metrics, followed by multiQC to aggregate the data, producing an HTML report.
 
 ```bash
 # FastQC
@@ -183,9 +183,8 @@ O=output/NA12878.sort.dup.bqsr.CollectMultipleMetrics
 # MultiQC
 multiqc output/. -o output/.
 ```
-:::::::::::::::::::::::::::::::::
-
 We have precomputed this and the resulting MultiQC report is [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report.html).
+:::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
