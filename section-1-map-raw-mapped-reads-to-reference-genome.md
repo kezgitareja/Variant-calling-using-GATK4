@@ -14,7 +14,7 @@ exercises: 2
 ::::::::::::::::::::::::::::::::::::: objectives
 
 - Design and create a clear directory structure for organising input, output, and intermediate files used in variant calling analysis pipeline.
-- Align raw sequencing data (`.fastq.gz` files) to a reference genome using an alignment tool (`BWA-MEM`).
+- Align raw sequencing data (`.fastq.gz` files) to a reference genome using an alignment tool ([BWA-MEM](https://github.com/lh3/bwa)).
 - Understand the role of reference genome files in the mapping process.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
