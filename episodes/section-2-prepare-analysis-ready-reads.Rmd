@@ -80,6 +80,7 @@ samtools flagstat output/NA12878.sort.bam
 ```
 
 :::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
 
 ## Mark duplicate reads
 
@@ -120,6 +121,7 @@ Q: How many duplicate reads are in the duplicate marked BAM file?
 124 + 0 with mate mapped to a different chr (mapQ>=5)
 ```
 A: Looks like there are 7207 duplicate reads.
+:::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
 
 ## Base quality recalibration
