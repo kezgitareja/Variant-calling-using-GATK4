@@ -6,153 +6,19 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- Why is it important to sort SAM/BAM files in a variant calling analysis pipeline?
+- What are duplicate reads? How do I identify them in a BAM file?
+- What is base quality score recalibration (BQSR)? How does it improve the accuracy of variant calls?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
-
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Sort SAM/BAM
-
-The alignment file `NA12878.bam` is not sorted. Before proceeding, we should sort the BAM file using the [Picard](https://broadinstitute.github.io/picard/) tools.
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-#### Challenge 2.1
-
-```bash
-picard -Xmx7g SortSam \
-I=output/NA12878.bam \
-O=output/NA12878.sort.bam \
-VALIDATION_STRINGENCY=LENIENT \
-SORT_ORDER=coordinate \
-MAX_RECORDS_IN_RAM=3000000 \
-CREATE_INDEX=True
-```
-:::::::::::::::::::::::::::::::::
-
-The above command will create a coordinate sorted BAM file and an index (`.bai`) file. Given that we now have a sorted BAM file, we can now generate some useful statistics. To do so we can use the `samtools flagstat` command. More details are available [here](https://www.htslib.org/doc/samtools-flagstat.html). To decode the SAM flags visit [Decoding SAM flags website](https://broadinstitute.github.io/picard/explain-flags.html).
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-#### Challenge 2.2
-
-Let's go to the home directory
-
-```bash
-cd
-samtools flagstat output/NA12878.sort.bam
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-#### Challenge 2.2
-
-Let's go to the home directory
-
-```bash
-cd
-samtools flagstat output/NA12878.sort.bam
-```
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-2032568 + 0 in total (QC-passed reads + QC-failed reads)
-2030516 + 0 primary
-2052 + 0 secondary
-0 + 0 supplementary
-0 + 0 duplicates
-0 + 0 primary duplicates
-2032563 + 0 mapped (100.00% : N/A)
-2030511 + 0 primary mapped (100.00% : N/A)
-2030516 + 0 paired in sequencing
-1015258 + 0 read1
-1015258 + 0 read2
-2030284 + 0 properly paired (99.99% : N/A)
-2030510 + 0 with itself and mate mapped
-1 + 0 singletons (0.00% : N/A)
-182 + 0 with mate mapped to a different chr
-124 + 0 with mate mapped to a different chr (mapQ>=5)
-```
-:::::::::::::::::::::::::::::::::
-
-## Mark duplicate reads
-
-The aim of this step is to locate and tag duplicate reads in the BAM file. Duplicate reads can arise due to several reasons. For more details go to [MarkDuplicates](https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-MarkDuplicates-Picard).
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-#### Challenge 2.3
-
-```bash
-picard -Xmx7g MarkDuplicates \
-    I=output/NA12878.sort.bam \
-    O=output/NA12878.sort.dup.bam \
-    METRICS_FILE=output/marked_dup_metrics.txt
-```
-:::::::::::::::::::::::::::::::::
-
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-
-``` r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
-```
-
-<div class="figure" style="text-align: center">
-<img src="fig/section-2-prepare-analysis-ready-reads-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
-</div>
-Or you can use pandoc markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Sort aligned sequencing reads (SAM/BAM files) by genomic coordinates using `picard SortSam`.
+- Generate basic alignment statistics using `samtools flagstat`.
+- Identify and mark duplicate reads using `picard MarkDuplicates`.
+- Perform BQSR using GATK `BaseRecalibrator` and `ApplyBQSR` tools.
+- Run summary statistics and quality control of the alignment data. 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
