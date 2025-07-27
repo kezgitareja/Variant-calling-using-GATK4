@@ -168,9 +168,9 @@ But before we proceed, let’s take a detour and run some summary statistics of 
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-#### BAM Statistics and QC
+#### Challenge 2.6
 
-The commands below use FastQC and Picard to generate QC metrics, followed by multiQC to aggregate the data, producing an HTML report.
+BAM Statistics and QC: The commands below use FastQC and Picard to generate QC metrics, followed by multiQC to aggregate the data, producing an HTML report.
 
 ```bash
 # FastQC
