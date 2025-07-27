@@ -256,7 +256,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="section-1-map-raw-mapped-reads-to-reference-genome.html">2. Map raw unmapped reads to reference genome</a>
+        <a href="section-1-map-raw-mapped-reads-to-reference-genome.html">2. Map raw sequencing reads to reference genome</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -435,7 +435,7 @@ reinforce the objectives.</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -466,7 +466,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -493,7 +493,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -555,7 +555,7 @@ locally</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</section></section><section id="aio-section-1-map-raw-mapped-reads-to-reference-genome"><p>Content from <a href="section-1-map-raw-mapped-reads-to-reference-genome.html">Map raw unmapped reads to reference genome</a></p>
+</section></section><section id="aio-section-1-map-raw-mapped-reads-to-reference-genome"><p>Content from <a href="section-1-map-raw-mapped-reads-to-reference-genome.html">Map raw sequencing reads to reference genome</a></p>
 <hr>
 <p>Last updated on 2025-07-27 |
 
@@ -574,7 +574,7 @@ any links that you are not going to use.
 <ul>
 <li>How should I set up a directory structure for a variant calling
 analysis pipeline?</li>
-<li>How can I mapp raw sequencing data to the appropriate reference
+<li>How can I map raw sequencing data to the appropriate reference
 genome?</li>
 </ul>
 </div>
@@ -613,24 +613,42 @@ tools are installed on the server, we will create a <code>tools</code>
 directory.</p>
 <p>Begin by creating a byobu-screen session (see <a href="https://kezgitareja.github.io/Variant-calling-using-GATK4/index.html" class="external-link">Summary
 and Setup</a> for more help):</p>
-<div id="chall" class="callout discussion">
+<div id="challenge-1.1" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
-<div id="chall" class="callout-inner">
-<h3 class="callout-title">Chall</h3>
+<div id="challenge-1.1" class="callout-inner">
+<h3 class="callout-title">Challenge 1.1</h3>
 <div class="callout-content">
-<pre><code>cd
-byobu-screen -S workshop</code></pre>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="bu">cd</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="ex">byobu-screen</span> <span class="at">-S</span> workshop</span></code></pre>
+</div>
+</div>
+</div>
+</div>
 <p>Create workshop directories:</p>
-<pre><code>mkdir data
-mkdir output
-mkdir reference
-mkdir reference/hg38
-mkdir scripts
-mkdir slurm_scripts
-mkdir temp
-mkdir tools</code></pre>
+<div id="challenge-1.2" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-1.2" class="callout-inner">
+<h3 class="callout-title">Challenge 1.2</h3>
+<div class="callout-content">
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">mkdir</span> data</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">mkdir</span> output</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">mkdir</span> reference</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">mkdir</span> reference/hg38</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">mkdir</span> scripts</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">mkdir</span> slurm_scripts</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">mkdir</span> temp</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">mkdir</span> tools</span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -650,15 +668,19 @@ directory you log in to).</p>
 Genome Sample Resources</a>. Raw sequencing reads from chromosome 20 are
 used in this tutorial. We have prepared the files which can be copied as
 follows:</p>
-<div id="discussion2" class="callout discussion">
+<div id="challenge-1.3" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="challenge-1.3" class="callout-inner">
+<h3 class="callout-title">Challenge 1.3</h3>
 <div class="callout-content">
-<pre><code>cp -p /mnt/shared_data/NA12878.chr20.region_1.fastq.gz data/.
-cp -p /mnt/shared_data/NA12878.chr20.region_2.fastq.gz data/.</code></pre>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> /mnt/shared_data/NA12878.chr20.region_1.fastq.gz data/.</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">cp</span> <span class="at">-p</span> /mnt/shared_data/NA12878.chr20.region_2.fastq.gz data/.</span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -681,14 +703,18 @@ section.</p>
 <p>Next, we need to prepare the reference data. Luckily, we have
 downloaded the data and all we need to do is to create a <a href="https://servicenow.iu.edu/kb?id=kb_article_view&amp;sysparm_article=KB0023928" class="external-link">symbolic
 link</a> to the data folder as follows:</p>
-<div id="discussion3" class="callout discussion">
+<div id="challenge-1.4" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="challenge-1.4" class="callout-inner">
+<h3 class="callout-title">Challenge 1.4</h3>
 <div class="callout-content">
-<pre><code>ln -s /mnt/shared_data/* reference/hg38/.</code></pre>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="fu">ln</span> <span class="at">-s</span> /mnt/shared_data/<span class="pp">*</span> reference/hg38/.</span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -700,24 +726,28 @@ generated for the reference genome.</p>
 </h2>
 <hr class="half-width">
 <p>Run the command below to map the raw sequencing data to the Homo
-sapiens (human) genome assembly GRCh38 (hg38). We are using the <a href="https://github.com/lh3/bwa" class="external-link">BWA-MEM</a> algorithms for mapping DNA
+sapiens (human) genome assembly GRCh38 (hg38). We are using the <a href="https://github.com/lh3/bwa" class="external-link">BWA-MEM</a> algorithm for mapping DNA
 sequences against large reference genomes. Note that we have already run
 the created the BWA index files by running the command
 <code>bwa index reference/hg38/Homo_sapiens_assembly38.fasta</code>.</p>
 <p>Run BWA as follows, but first navigate to the scripts folder:</p>
-<div id="discussion4" class="callout discussion">
+<div id="challenge-1.5" class="callout discussion">
 <div class="callout-square">
 <i class="callout-icon" data-feather="message-circle"></i>
 </div>
-<div class="callout-inner">
-<h3 class="callout-title">Challenge</h3>
+<div id="challenge-1.5" class="callout-inner">
+<h3 class="callout-title">Challenge 1.5</h3>
 <div class="callout-content">
-<pre><code>bwa mem -M -t 2 \
--R "@RG\tID:SRR622461.7\tSM:NA12878\tLB:ERR194147\tPL:ILLUMINA" \
-reference/hg38/Homo_sapiens_assembly38.fasta \
-data/NA12878.chr20.region_1.fastq.gz \
-data/NA12878.chr20.region_2.fastq.gz | \
-samtools view -b -h -o output/NA12878.bam -</code></pre>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">bwa</span> mem <span class="at">-M</span> <span class="at">-t</span> 2 <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>-R <span class="st">"@RG\tID:SRR622461.7\tSM:NA12878\tLB:ERR194147\tPL:ILLUMINA"</span> <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>data/NA12878.chr20.region_1.fastq.gz <span class="dt">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>data/NA12878.chr20.region_2.fastq.gz <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a><span class="ex">samtools</span> view <span class="at">-b</span> <span class="at">-h</span> <span class="at">-o</span> output/NA12878.bam <span class="at">-</span></span></code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -734,14 +764,13 @@ uses Samtools to convert the output to the BAM format.</p>
 <h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
 <ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<li>This variant calling analysis pipeline is run on <a href="https://ardc.edu.au/services/ardc-nectar-research-cloud/" class="external-link">Nectar</a>
+Instance using enhanced terminal multiplexer
+<code>byobu-screen</code>.</li>
+<li>A directory structure helps organise input, output, and intermediate
+files used for the analysis.</li>
+<li>The <a href="https://github.com/lh3/bwa" class="external-link">BWA-MEM</a> algorithm is
+used to map raw sequencing data to the reference genome.</li>
 </ul>
 </div>
 </div>
@@ -814,7 +843,7 @@ reinforce the objectives.</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -845,7 +874,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -872,7 +901,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
