@@ -115,11 +115,11 @@ Let's take a look at the output:
 ```bash
 less output/output.vcf.gz
 ```
-::::::::::::::::::::::::::::::::: solution
+:::::::::::::::::::::::: solution 
 
 ## Visualisation of VCF file
 
-<figure>
+Screenshot.
 
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
