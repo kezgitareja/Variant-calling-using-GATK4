@@ -435,6 +435,73 @@ straight forward way using the GATK4 tools is as follows:</p>
 </div>
 </div>
 </div>
+<p>There are several protocols for filtering VCF files. We have walked
+through just one of them. For other options please visit this <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035531112--How-to-Filter-variants-either-with-VQSR-or-by-hard-filtering" class="external-link">link</a>.</p>
+<div id="filtering-strategy-for-a-single-sample-vcf-file" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="filtering-strategy-for-a-single-sample-vcf-file" class="callout-inner">
+<h3 class="callout-title">Filtering strategy for a single sample VCF file</h3>
+<div class="callout-content">
+<p>Consider the following method to filter a single sample VCF file.
+Here we will go through the Convolutional Neural Net based protocol to
+annotate and filter the VCF file.</p>
+<p>This is a two step process:</p>
+<ol style="list-style-type: lower-roman"><li>CNNScoreVariants will annotate the variant with pre-computed
+single-sample derived model scores in the INFO field CNN_1D (the neural
+network performs convolutions over the reference sequence surrounding
+the variant and combines those features with a multilayer perceptron on
+the variant annotations).</li>
+</ol><div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> CNNScoreVariants  <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>   <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>   <span class="at">-V</span> output/output.vcf.gz <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>   <span class="at">-O</span> output/output.cnns.vcf</span></code></pre>
+</div>
+<ol start="2" style="list-style-type: lower-roman"><li>FilterVariantTranches takes as input the percent sensitivities
+(0-100) to known sites to apply the filter. Variants with scores higher
+than for e.g. 99th percentile of variants in the resources pass through
+the filter and will have <code>PASS</code> in the filter. Others will
+have a filter values like ‘CNN_1D_INDEL_Tranche_99.40_100.00’ or
+‘CNN_1D_SNP_Tranche_99.95_100.00’.</li>
+</ol><div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> FilterVariantTranches <span class="dt">\</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>    <span class="at">-V</span> output/output.cnns.vcf <span class="dt">\</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>    <span class="at">--resource</span> reference/hg38/hapmap_3.3.hg38.vcf.gz <span class="dt">\</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">--resource</span> reference/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz <span class="dt">\</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>    <span class="at">--info-key</span> CNN_1D <span class="dt">\</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">--snp-tranche</span> 99.95 <span class="dt">\</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="at">--indel-tranche</span> 99.4 <span class="dt">\</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>    <span class="at">-O</span> output/output.cnns.cnnfilter.vcf</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="note" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="note" class="callout-inner">
+<h3 class="callout-title">Note</h3>
+<div class="callout-content">
+<p><a href="https://samtools.github.io/bcftools/" class="external-link">BCFtools</a> is a
+useful tool to manipulate, filter and query VCF files. It can be
+combined with linux command line tools as well to summarise data. For
+example, the command below can used extract and print the ‘FILTER’
+column from the VCF file.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="ex">bcftools</span> query <span class="at">-f</span><span class="st">'%FILTER\n'</span> output/output.vqsr.vcf</span></code></pre>
+</div>
+</div>
+</div>
+</div>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
