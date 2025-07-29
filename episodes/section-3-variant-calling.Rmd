@@ -6,14 +6,13 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- How 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Explain 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -92,15 +91,44 @@ Now that we have a merged GVCF file, we are ready to perform genotyping.
 
 ## Apply GenotypeGVCFs
 
+GATK uses a modified version (to include multi-allelic variants) to calculate the posterior probability of a non-reference allele. More details [here](https://gatk.broadinstitute.org/hc/en-us/articles/360035890511-Assigning-per-sample-genotypes-HaplotypeCaller).
 
+::::::::::::::::::::::::::::::::::::: challenge 
 
+#### Challenge 3.4
+
+```bash
+gatk --java-options "-Xmx7g" GenotypeGVCFs \
+    -R reference/hg38/Homo_sapiens_assembly38.fasta \
+    -V output/cohort.g.vcf.gz \
+    -L chr20 \
+    -O output/output.vcf.gz
+```
+:::::::::::::::::::::::::::::::::
+
+Let's take a look at the output:
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 3.5
+
+```bash
+less output/output.vcf.gz
+```
+::::::::::::::::::::::::::::::::: solution
+
+## Visualisation of VCF file
+
+<figure>
+
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
+
+An alternative to CombineGVCFs is [GenomicsDBImport](https://gatk.broadinstitute.org/hc/en-us/articles/360057439331-GenomicsDBImport), which is more efficient for large sample numbers and stores the content in a GenomicsDB data store. Therefore, CombineGVCFs could be slow and inefficient for more than a few samples. A possible work around is to split up the tasks into per interval regions such as chromosomes.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Use
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
