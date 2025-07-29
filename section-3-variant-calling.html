@@ -246,6 +246,7 @@
         <ul><li><a href="#apply-haplotypecaller">Apply HaplotypeCaller</a></li>
 <li><a href="#apply-combinegvcfs">Apply CombineGVCFs</a></li>
 <li><a href="#apply-genotypegvcfs">Apply GenotypeGVCFs</a></li>
+<li><a href="#visualisation-of-vcf-file">Visualisation of VCF file</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -347,8 +348,7 @@
 <div class="card-body">
 <div class="inner">
 <h3 class="card-title">Questions</h3>
-<ul><li>How do you write a lesson using R Markdown and
-<a href="https://carpentries.github.io/sandpaper/" class="external-link">sandpaper</a>?</li>
+<ul><li>How</li>
 </ul></div>
 </div>
 </div>
@@ -356,9 +356,7 @@
 <div class="card-body">
 <div class="inner bordered">
 <h3 class="card-title">Objectives</h3>
-<ul><li>Explain how to use markdown with the new lesson template</li>
-<li>Demonstrate how to include pieces of code, figures, and nested
-challenge blocks</li>
+<ul><li>Explain</li>
 </ul></div>
 </div>
 </div>
@@ -463,21 +461,55 @@ see in the VCF file? Hint: Look at the header row.</p>
 <p>Now that we have a merged GVCF file, we are ready to perform
 genotyping.</p>
 </section><section><h2 class="section-heading" id="apply-genotypegvcfs">Apply GenotypeGVCFs<a class="anchor" aria-label="anchor" href="#apply-genotypegvcfs"></a></h2>
-<hr class="half-width"><div id="keypoints1" class="callout keypoints">
+<hr class="half-width"><p>GATK uses a modified version (to include multi-allelic variants) to
+calculate the posterior probability of a non-reference allele. More
+details <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890511-Assigning-per-sample-genotypes-HaplotypeCaller" class="external-link">here</a>.</p>
+<div id="challenge-3.4" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-3.4" class="callout-inner">
+<h3 class="callout-title">Challenge 3.4</h3>
+<div class="callout-content">
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">gatk</span> <span class="at">--java-options</span> <span class="st">"-Xmx7g"</span> GenotypeGVCFs <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>    <span class="at">-R</span> reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>    <span class="at">-V</span> output/cohort.g.vcf.gz <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="at">-L</span> chr20 <span class="dt">\</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>    <span class="at">-O</span> output/output.vcf.gz</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Let’s take a look at the output:</p>
+<p>::::::::::::::::::::::::::::::::::::: challenge</p>
+<div class="section level4">
+<h4 id="challenge-3-5">Challenge 3.5<a class="anchor" aria-label="anchor" href="#challenge-3-5"></a></h4>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">less</span> output/output.vcf.gz</span></code></pre>
+</div>
+<p>::::::::::::::::::::::::::::::::: solution</p>
+</div>
+</section><section><h2 class="section-heading" id="visualisation-of-vcf-file">Visualisation of VCF file<a class="anchor" aria-label="anchor" href="#visualisation-of-vcf-file"></a></h2>
+<hr class="half-width"><figure><p>:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::</p>
+<p>An alternative to CombineGVCFs is <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360057439331-GenomicsDBImport" class="external-link">GenomicsDBImport</a>,
+which is more efficient for large sample numbers and stores the content
+in a GenomicsDB data store. Therefore, CombineGVCFs could be slow and
+inefficient for more than a few samples. A possible work around is to
+split up the tasks into per interval regions such as chromosomes.</p>
+<div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
 </div>
 <div class="callout-inner">
 <h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
-<ul><li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<ul><li>Use</li>
 </ul></div>
 </div>
 </div>
@@ -485,7 +517,7 @@ locally</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</section></div> <!-- / div.lesson-content -->
+</figure></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="section-2-prepare-analysis-ready-reads.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="section-4-filter-and-prepare-analysis-ready-variants.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
