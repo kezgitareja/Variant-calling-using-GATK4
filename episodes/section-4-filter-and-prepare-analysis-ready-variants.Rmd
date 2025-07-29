@@ -114,6 +114,42 @@ bcftools query -f'%FILTER\n' output/output.vqsr.vcf
 ```
 ::::::::::::::::::::::::::::::::::::::::::::::
 
+## Additional filtering
+
+The VariantFiltration tools is designed for hard-filtering variant calls based on custom quality criteria such as sequencing depth, mapping quality etc. The two parameters are the filter-name and filter-expression. The parameter filter-name is the name of the filter to be used in the FILTER column if the expression in filter-expression is true. In the example below, if the sequencing depth at the variant site (VCF field DP) is less than 10, the FILTER field will be populated with the value ‘Low_depth10’. Users can add multiple filter expression/name combinations.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 4.2
+
+```bash
+gatk --java-options "-Xmx7g" VariantFiltration \
+    -R reference/hg38/Homo_sapiens_assembly38.fasta \
+    -V output/output.vqsr.vcf \
+    -O output/output.vqsr.varfilter.vcf \
+    --filter-name "Low_depth10" \
+    --filter-expression "DP < 10"
+```
+:::::::::::::::::::::::: solution 
+
+## Q: How many variants have a low sequencing depth (DP<10) in the file output.vqsr.varfilter.vcf?
+
+```bash
+bcftools query -f'%FILTER\n' output/output.vqsr.varfilter.vcf | sort | uniq -c
+```
+
+```output
+  6 Low_depth10
+  2 Low_depth10;VQSRTrancheSNP99.00to99.90
+  9 Low_depth10;VQSRTrancheSNP99.90to100.00
+  9064 PASS
+  1278 VQSRTrancheSNP99.00to99.90
+  108 VQSRTrancheSNP99.90to100.00
+```
+
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
+
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
