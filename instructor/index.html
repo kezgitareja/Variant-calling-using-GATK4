@@ -491,11 +491,96 @@ visible, even if you get disconnected.</p>
 </div>
 <p>You can then proceed to run the commands in the workshop as
 normal.</p>
-<!--
+<div id="byobu-basics" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="byobu-basics" class="callout-inner">
+<h3 class="callout-title">Byobu Basics</h3>
+<div class="callout-content">
+<p>The screen should look like this:</p>
+<p>Should your SSH session on Nectar terminate, once you log back in to
+your Nectar instance, list running sessions/screens:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="ex">byobu-screen</span> <span class="at">-ls</span></span></code></pre>
+</div>
+<p>If it says (Detached) next to the <code>workshop</code> session in
+the list, reattach to <code>workshop</code> by:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">byobu-screen</span> <span class="at">-r</span> workshop</span></code></pre>
+</div>
+<p>If it says (Attached) next to the <code>workshop</code> session in
+the list, you can access the <code>workshop</code> session which is
+already attached by:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">byobu-screen</span> <span class="at">-r</span> <span class="at">-d</span> workshop</span></code></pre>
+</div>
+<p>Some other useful <code>byobu-screen</code> commands:</p>
+<p>To detach from <code>workshop</code>, type <code>ctrl-a ctrl-d</code>
+while inside the <code>workshop</code> session. (You will need to
+configure Byobu’s ctrl-a behaviour if it hasn’t already been configured
+(text will appear on the screen telling you this). Follow the
+information on the screen and select <code>1</code> for Screen
+mode).</p>
+<p>To terminate <code>workshop</code>, type <code>ctrl-d</code> while
+inside the <code>workshop</code> session.</p>
+</div>
+</div>
+</div>
+</section><section><h2 class="section-heading" id="tutorial-setting">Tutorial setting<a class="anchor" aria-label="anchor" href="#tutorial-setting"></a></h2>
+<hr class="half-width"><p>The setting for this tutorial is as follows: you receive some
+germline sequencing data from an individual <a href="https://www.internationalgenome.org/data-portal/sample/NA12878" class="external-link">NA12878</a>
+(chr20 from sample NA12878 is sourced from the International Genome
+Sample Resource). Your aim is to identify small genetic variants from
+this data.</p>
+</section><section><h2 class="section-heading" id="the-genome-analysis-toolkit-gatk">The Genome Analysis Toolkit (GATK)<a class="anchor" aria-label="anchor" href="#the-genome-analysis-toolkit-gatk"></a></h2>
+<hr class="half-width"><p>GATK is the industry standard toolkit for analysis of germline DNA to
+identify SNVs and indels. The GATK tool is mainly designed fo the human
+whole genome and exome analysis. The current version (GATK4) has
+expanded scope now and includes more complex analysis such copy number
+(CNV), structural variant (SV) and somatic variants. The current version
+of GATK also includes several utility functions for processing alignment
+files, VCF files and other complex processing workflows. The Picard
+toolkit is also now incorporated with GATK4. Van der Auwera GA &amp;
+O’Connor BD. (2020). Genomics in the Cloud: Using Docker, GATK, and WDL
+in Terra (1st Edition). O’Reilly Media.</p>
+</section><section><h2 class="section-heading" id="additional-information">Additional Information<a class="anchor" aria-label="anchor" href="#additional-information"></a></h2>
+<hr class="half-width"><p>To copy data from the remote workshop computer to your local
+computer.</p>
+<p>Command line/Mac Users</p>
+<p>The syntax to do this depends on whether you are running the copying
+command on your local computer, or on the remote computer (Nectar
+cloud).</p>
+<ol style="list-style-type: decimal"><li>When running the command from your local computer, the syntax for
+copying a file from Nectar is:</li>
+</ol><div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">scp</span> username@nectar_IP_address:FILENAME /PATH/TO/TARGET/FOLDER/</span></code></pre>
+</div>
+<ol start="2" style="list-style-type: decimal"><li>Running the command on the remote computer, the syntax for copying a
+file to your local computer is:</li>
+</ol><div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">scp</span> FILENAME username@your_IP_address:/PATH/TO/TARGET/FOLDER/</span></code></pre>
+</div>
+<p>SFTP clients</p>
+<p>Using WinSCP or FileZilla or CyberDuck you will need the following
+details to connect and browse.</p>
+<ol style="list-style-type: decimal"><li>Host: The IP address of the Nectar instance</li>
+<li>Username:</li>
+<li>Port:</li>
+</ol><!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
- -->
-</section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
+ --></section></section></main><nav class="bottom-pagination mx-md-4" aria-label="Next Chapter"><!-- content for small screens --><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link float-end" href="../instructor/introduction.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
       </div>
       <!-- content for large screens -->
