@@ -262,6 +262,7 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#variantstotable">VariantsToTable</a></li>
+<li><a href="#html-report">HTML report</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -402,6 +403,65 @@ show all variants.</p>
 </div>
 </div>
 </div>
+</section><section><h2 class="section-heading" id="html-report">HTML report<a class="anchor" aria-label="anchor" href="#html-report"></a></h2>
+<hr class="half-width"><p>Another useful method for sharing data is an interactive HTML file.
+This is suited for sharing a smaller subset of variants along with
+sequencing data. Here we will go through a simple example using the <a href="https://github.com/brentp/jigv" class="external-link">jigv</a> tool. See below on how to
+download and setup jigv.</p>
+<div id="challenge-5.2" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-5.2" class="callout-inner">
+<h3 class="callout-title">Challenge 5.2</h3>
+<div class="callout-content">
+<p>Download jigv:</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">wget</span> https://github.com/brentp/jigv/releases/download/v0.1.10/jigv</span></code></pre>
+</div>
+<p>Make jigv executable:</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">chmod</span> +x jigv</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Screenshot</p>
+<div id="challenge-5.3" class="callout discussion">
+<div class="callout-square">
+<i class="callout-icon" data-feather="message-circle"></i>
+</div>
+<div id="challenge-5.3" class="callout-inner">
+<h3 class="callout-title">Challenge 5.3</h3>
+<div class="callout-content">
+<p>We will start with creating a subset of variants to report:</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="ex">bcftools</span> view output/output.vqsr.varfilter.pass.vcf.gz <span class="dt">\</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>chr20:3822018-3999324 <span class="kw">|</span> <span class="dt">\</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="ex">bgzip</span> <span class="at">-c</span> <span class="op">&gt;</span> output/subset.vcf.gz</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="ex">tabix</span> <span class="at">-p</span> vcf output/subset.vcf.gz</span></code></pre>
+</div>
+<p>Now, we will call the jigv tool command to generate the report:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="ex">./jigv</span> <span class="at">--sample</span> NA12878 <span class="dt">\</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>--sites output/subset.vcf.gz <span class="dt">\</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>--fasta reference/hg38/Homo_sapiens_assembly38.fasta <span class="dt">\</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>output/NA12878.sort.dup.bqsr.bam <span class="op">&gt;</span> output/NA12878.jigv.html</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>Here is an example <a href="https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/NA12878.html" class="external-link">report</a>
+we created earlier.</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -409,14 +469,7 @@ show all variants.</p>
 <div class="callout-inner">
 <h3 class="callout-title">Key Points</h3>
 <div class="callout-content">
-<ul><li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
+<ul><li>Use</li>
 </ul></div>
 </div>
 </div>
