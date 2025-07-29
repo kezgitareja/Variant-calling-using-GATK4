@@ -69,9 +69,50 @@ gatk CountVariants -V output/output.vqsr.vcf
 Tool returned:
 10467
 ```
-
 ::::::::::::::::::::::::::::::::::::::::::::::
 
+There are several protocols for filtering VCF files. We have walked through just one of them. For other options please visit this [link](https://gatk.broadinstitute.org/hc/en-us/articles/360035531112--How-to-Filter-variants-either-with-VQSR-or-by-hard-filtering).
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Filtering strategy for a single sample VCF file
+
+Consider the following method to filter a single sample VCF file. Here we will go through the Convolutional Neural Net based protocol to annotate and filter the VCF file.
+
+This is a two step process:
+
+(i) CNNScoreVariants will annotate the variant with pre-computed single-sample derived model scores in the INFO field CNN_1D (the neural network performs convolutions over the reference sequence surrounding the variant and combines those features with a multilayer perceptron on the variant annotations).
+
+```bash
+gatk --java-options "-Xmx7g" CNNScoreVariants  \
+   -R reference/hg38/Homo_sapiens_assembly38.fasta \
+   -V output/output.vcf.gz \
+   -O output/output.cnns.vcf
+```
+
+(ii) FilterVariantTranches takes as input the percent sensitivities (0-100) to known sites to apply the filter. Variants with scores higher than for e.g. 99th percentile of variants in the resources pass through the filter and will have `PASS` in the filter. Others will have a filter values like ‘CNN_1D_INDEL_Tranche_99.40_100.00’ or ‘CNN_1D_SNP_Tranche_99.95_100.00’.
+
+```bash
+gatk --java-options "-Xmx7g" FilterVariantTranches \
+    -V output/output.cnns.vcf \
+    --resource reference/hg38/hapmap_3.3.hg38.vcf.gz \
+    --resource reference/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz \
+    --info-key CNN_1D \
+    --snp-tranche 99.95 \
+    --indel-tranche 99.4 \
+    -O output/output.cnns.cnnfilter.vcf
+```
+:::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::: callout
+
+#### Note
+[BCFtools](https://samtools.github.io/bcftools/) is a useful tool to manipulate, filter and query VCF files. It can be combined with linux command line tools as well to summarise data. For example, the command below can used extract and print the ‘FILTER’ column from the VCF file.
+
+```bash
+bcftools query -f'%FILTER\n' output/output.vqsr.vcf
+```
+::::::::::::::::::::::::::::::::::::::::::::::
 
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
