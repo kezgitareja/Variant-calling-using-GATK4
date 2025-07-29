@@ -6,7 +6,9 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How 
+- How can raw DNA sequencing reads be processed to identify genomic variants using GATK4?
+- What are the key steps involved in a variant calling pipeline, from raw data to a filtered variant list?
+- What tools and summary statistics can help assess the quality and impact of the called variants?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -43,14 +45,5 @@ Slides and workshop instructions
 Click [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/VariantCallingUsingGATK4.pdf) for the slides.
 Click [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/variant_calling_gatk1.pdf) for a printer friendly PDF version of this workshop.
 
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
-
-::::::::::::::::::::::::::::::::::::::::::::::::
 
 [r-markdown]: https://rmarkdown.rstudio.com/
