@@ -1,12 +1,13 @@
 ---
 title: "Introduction"
+author: "Khalid Mahmood, Melbourne Bioinformatics, University of Melbourne"
 teaching: 240
 exercises: 2
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using Markdown and `{sandpaper}`?
+- How 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
