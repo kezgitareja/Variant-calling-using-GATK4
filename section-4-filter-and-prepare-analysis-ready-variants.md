@@ -130,9 +130,12 @@ gatk --java-options "-Xmx7g" VariantFiltration \
     --filter-name "Low_depth10" \
     --filter-expression "DP < 10"
 ```
+
+How many variants have a low sequencing depth (DP<10) in the file `output.vqsr.varfilter.vcf`?
+
 :::::::::::::::::::::::: solution 
 
-## Q: How many variants have a low sequencing depth (DP<10) in the file output.vqsr.varfilter.vcf?
+## Q: How many variants have a low sequencing depth?
 
 ```bash
 bcftools query -f'%FILTER\n' output/output.vqsr.varfilter.vcf | sort | uniq -c
@@ -150,6 +153,34 @@ bcftools query -f'%FILTER\n' output/output.vqsr.varfilter.vcf | sort | uniq -c
 :::::::::::::::::::::::::::::::::
 :::::::::::::::::::::::::::::::::
 
+## Final analysis ready VCF file
+
+Given we have a filter annotated VCF files (), we can now create an analysis ready VCF file.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 4.3
+
+Create a VCF file called `output/output.vqsr.varfilter.pass.vcf.gz` that contains only PASS variants. The input VCF file is `output/output.vqsr.varfilter.vcf`.
+
+:::::::::::::::::::::::: solution 
+
+## Hint: Try using the Bcftools application.
+
+Use the bcftools to filter PASS variants.
+
+```bash
+bcftools view -f 'PASS,.' -O vcf -o output/output.vqsr.varfilter.pass.vcf output/output.vqsr.varfilter.vcf
+```
+
+We have now created an analysis ready version of the VCF file. It is also a good practice to compress and index the file.
+
+```output
+bgzip -c output/output.vqsr.varfilter.pass.vcf > output/output.vqsr.varfilter.pass.vcf.gz
+tabix -p vcf output/output.vqsr.varfilter.pass.vcf.gz
+```
+:::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
