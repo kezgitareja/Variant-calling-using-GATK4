@@ -6,9 +6,9 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How can raw DNA sequencing reads be processed to identify genomic variants using GATK4?
-- What are the key steps involved in a variant calling pipeline, from raw data to a filtered variant list?
-- What tools and summary statistics can help assess the quality and impact of the called variants?
+- How are raw DNA sequencing reads be processed to identify genomic variants?
+- What are the key steps involved in a variant calling pipeline?
+- What tools can help assess the quality and impact of the called variants?
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -42,11 +42,11 @@ This tutorial runs through the GATK4 best practices workflow for variant calling
 
 Data: Illumina HiSeq paired-end (2×100 bp) reads in FASTQ format.
 
-Tools: GATK4, Picard, Bcftools and jigv
+Tools: GATK4, Picard, Bcftools and jigv.
 
-Reference data: GATK4 hg38 reference bundle and hg38 refGene annotation (hg38.refGene.gtf.gz)
+Reference data: GATK4 hg38 reference bundle and hg38 refGene annotation (hg38.refGene.gtf.gz).
 
-Slides and workshop instructions
+Slides and workshop instructions:
 
 Click [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/VariantCallingUsingGATK4.pdf) for the slides.
 
