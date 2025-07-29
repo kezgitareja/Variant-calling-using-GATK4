@@ -131,11 +131,11 @@ gatk --java-options "-Xmx7g" VariantFiltration \
     --filter-expression "DP < 10"
 ```
 
-How many variants have a low sequencing depth (DP<10) in the file `output.vqsr.varfilter.vcf`?
+Question: How many variants have a low sequencing depth (DP<10) in the file `output.vqsr.varfilter.vcf`?
 
 :::::::::::::::::::::::: solution 
 
-## Q: How many variants have a low sequencing depth?
+## Answer
 
 ```bash
 bcftools query -f'%FILTER\n' output/output.vqsr.varfilter.vcf | sort | uniq -c
