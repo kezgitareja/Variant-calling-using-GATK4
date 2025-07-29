@@ -385,7 +385,12 @@
 <div class="inner">
 <h3 class="card-title">Questions</h3>
 <ul>
-<li>How</li>
+<li>How can raw DNA sequencing reads be processed to identify genomic
+variants using GATK4?</li>
+<li>What are the key steps involved in a variant calling pipeline, from
+raw data to a filtered variant list?</li>
+<li>What tools and summary statistics can help assess the quality and
+impact of the called variants?</li>
 </ul>
 </div>
 </div>
@@ -432,26 +437,6 @@ reference bundle and hg38 refGene annotation (hg38.refGene.gtf.gz)</p>
 <p>Slides and workshop instructions Click <a href="https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/VariantCallingUsingGATK4.pdf" class="external-link">here</a>
 for the slides. Click <a href="https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/variant_calling_gatk1.pdf" class="external-link">here</a>
 for a printer friendly PDF version of this workshop.</p>
-<div id="keypoints1" class="callout keypoints">
-<div class="callout-square">
-<i class="callout-icon" data-feather="key"></i>
-</div>
-<div class="callout-inner">
-<h3 class="callout-title">Key Points</h3>
-<div class="callout-content">
-<ul>
-<li>Use <code>.md</code> files for episodes when you want static
-content</li>
-<li>Use <code>.Rmd</code> files for episodes when you need to generate
-output</li>
-<li>Run <code>sandpaper::check_lesson()</code> to identify any issues
-with your lesson</li>
-<li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
-locally</li>
-</ul>
-</div>
-</div>
-</div>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
@@ -828,7 +813,7 @@ go to <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-Ma
   Q: How many duplicate reads are in the duplicate marked BAM file?
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1169,7 +1154,7 @@ details <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890511-
   Visualisation of VCF file
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Screenshot.</p>
 </div>
@@ -1420,7 +1405,7 @@ the file <code>output.vqsr.varfilter.vcf</code>?</p>
   Answer
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1467,7 +1452,7 @@ PASS variants. The input VCF file is
   Hint: Try using the Bcftools application.
   </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Use the bcftools to filter PASS variants.</p>
 <div class="codewrapper sourceCode" id="cb11">
