@@ -89,6 +89,14 @@ output/NA12878.sort.dup.bqsr.bam > output/NA12878.jigv.html
 
 Here is an example [report](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/NA12878.html) we created earlier.
 
+## Additional Information: Introduction to variant annotation using Ensembl VEP
+
+This is a very brief introduction to variant annotation using the [Ensembl Variant Effect Predictor (VEP)](https://asia.ensembl.org/Tools/VEP) tool. Follow the link to the Web Interface and upload your final output variant file and click Run.
+
+Here is a link to the annotation output [file](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/output.vqsr.varfilter.pass.vep.re_NM.xlsx) created earlier in Excel format.
+
+We can also take another look at the updated MultiQC report with annotatio summary [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/multiqc_report_vep.html).
+
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
 - Use  
