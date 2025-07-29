@@ -26,6 +26,7 @@ This GATK4 tool extracts fields of interest from each record in a VCF file. [Var
 
 #### Note
 VariantsToTable, by default, only extracts PASS or . (no filtering applied) variants. Use the `--show-filtered` parameter to show all variants.
+
 ::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: challenge 
@@ -42,13 +43,55 @@ gatk VariantsToTable \
 ```
 :::::::::::::::::::::::::::::::::
 
+## HTML report
+
+Another useful method for sharing data is an interactive HTML file. This is suited for sharing a smaller subset of variants along with sequencing data. Here we will go through a simple example using the [jigv](https://github.com/brentp/jigv) tool. See below on how to download and setup jigv.
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 5.2
+
+Download jigv:
+```bash
+wget https://github.com/brentp/jigv/releases/download/v0.1.10/jigv
+```
+Make jigv executable:
+```bash
+chmod +x jigv
+```
+:::::::::::::::::::::::::::::::::
+
+Screenshot
+
+::::::::::::::::::::::::::::::::::::: challenge 
+
+#### Challenge 5.3
+
+We will start with creating a subset of variants to report:
+
+```bash
+bcftools view output/output.vqsr.varfilter.pass.vcf.gz \
+chr20:3822018-3999324 | \
+bgzip -c > output/subset.vcf.gz
+
+tabix -p vcf output/subset.vcf.gz
+```
+
+Now, we will call the jigv tool command to generate the report:
+
+```bash
+./jigv --sample NA12878 \
+--sites output/subset.vcf.gz \
+--fasta reference/hg38/Homo_sapiens_assembly38.fasta \
+output/NA12878.sort.dup.bqsr.bam > output/NA12878.jigv.html
+```
+:::::::::::::::::::::::::::::::::
+
+Here is an example [report](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/NA12878.html) we created earlier.
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Use  
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
