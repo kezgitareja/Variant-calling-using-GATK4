@@ -908,7 +908,7 @@ go to <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360037052812-Ma
   Q: How many duplicate reads are in the duplicate marked BAM file?
   </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1226,22 +1226,35 @@ details <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360035890511-
 </div>
 </div>
 <p>Let’s take a look at the output:</p>
-<p>::::::::::::::::::::::::::::::::::::: challenge</p>
-<div class="section level4">
-<h4 id="challenge-3-5">Challenge 3.5<a class="anchor" aria-label="anchor" href="#challenge-3-5"></a>
-</h4>
+<div id="challenge-3.5" class="callout challenge">
+<div class="callout-square">
+<i class="callout-icon" data-feather="zap"></i>
+</div>
+<div id="challenge-3.5" class="callout-inner">
+<h3 class="callout-title">Challenge 3.5</h3>
+<div class="callout-content">
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">BASH<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode bash" tabindex="0"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">less</span> output/output.vcf.gz</span></code></pre>
 </div>
-<p>::::::::::::::::::::::::::::::::: solution</p>
 </div>
-</section><section><h2 class="section-heading" id="visualisation-of-vcf-file">Visualisation of VCF file<a class="anchor" aria-label="anchor" href="#visualisation-of-vcf-file"></a>
-</h2>
-<hr class="half-width">
-<figure><p>:::::::::::::::::::::::::::::::::
-:::::::::::::::::::::::::::::::::</p>
+</div>
+</div>
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">
+  Visualisation of VCF file
+  </h4>
+</button>
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div class="accordion-body">
+<p>Screenshot.</p>
+</div>
+</div>
+</div>
+</div>
 <p>An alternative to CombineGVCFs is <a href="https://gatk.broadinstitute.org/hc/en-us/articles/360057439331-GenomicsDBImport" class="external-link">GenomicsDBImport</a>,
 which is more efficient for large sample numbers and stores the content
 in a GenomicsDB data store. Therefore, CombineGVCFs could be slow and
@@ -1264,7 +1277,7 @@ split up the tasks into per interval regions such as chromosomes.</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</figure></section></section><section id="aio-section-4-filter-and-prepare-analysis-ready-variants"><p>Content from <a href="section-4-filter-and-prepare-analysis-ready-variants.html">Section 4: Filter and prepare analysis ready variants</a></p>
+</section></section><section id="aio-section-4-filter-and-prepare-analysis-ready-variants"><p>Content from <a href="section-4-filter-and-prepare-analysis-ready-variants.html">Section 4: Filter and prepare analysis ready variants</a></p>
 <hr>
 <p>Last updated on 2025-07-29 |
 
