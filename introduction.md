@@ -25,8 +25,11 @@ For queries relating to this workshop, contact Melbourne Bioinformatics (bioinfo
 
 ## Author Information
 Khalid Mahmood
+
 Melbourne Bioinformatics, University of Melbourne
+
 Developed: July 2021
+
 Reviewed: August 2024
 
 ## Overview
@@ -38,11 +41,15 @@ This workshop is designed for participants with some command-line knowledge. You
 This tutorial runs through the GATK4 best practices workflow for variant calling. The workflow starts with pairs of sequencing reads and performs a series of steps to determine a set of genetic variants.
 
 Data: Illumina HiSeq paired-end (2×100 bp) reads in FASTQ format.
+
 Tools: GATK4, Picard, Bcftools and jigv
+
 Reference data: GATK4 hg38 reference bundle and hg38 refGene annotation (hg38.refGene.gtf.gz)
 
 Slides and workshop instructions
+
 Click [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/VariantCallingUsingGATK4.pdf) for the slides.
+
 Click [here](https://www.melbournebioinformatics.org.au/tutorials/tutorials/variant_calling_gatk1/files/variant_calling_gatk1.pdf) for a printer friendly PDF version of this workshop.
 
 
