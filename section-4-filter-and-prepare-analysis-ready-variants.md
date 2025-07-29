@@ -1,117 +1,82 @@
 ---
-title: 'Section 4: Filter and prepare analysis ready variants'
+title: 'Filter and prepare analysis ready variants'
 teaching: 10
 exercises: 2
 ---
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- How
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Explain
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
-## Introduction
+## Variant Quality Score Recalibration
 
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
-
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
-
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+The raw VCF file from the previous step (`output.vcf.gz`) contains 10467 variants. Not all of these are real, therefore, the aim of this step is to filter out artifacts or false positive variants. GATK has provided different workflows for variant filtering. Here we will walk through the Variant Quality Score Recalibration or the VQSR strategy. VQSR is a two step process (1) the first step builds a model that describes how variant metric or quality measures co-vary with the known variants in the training set. (2) The second step then ranks each variant according to the target sensitivity cutoff and applies a filter expression.
 
 ::::::::::::::::::::::::::::::::::::: challenge 
 
-## Challenge 1: Can you do it?
+#### Challenge 4.1
 
-What is the output of this command?
+Step 1. VariantRecalibrator
 
-```r
-paste("This", "new", "lesson", "looks", "good")
+```bash
+gatk --java-options "-Xmx7g" VariantRecalibrator \
+    -V output/output.vcf.gz \
+    --trust-all-polymorphic \
+    -mode SNP \
+    --max-gaussians 6 \
+    --resource:hapmap,known=false,training=true,truth=true,prior=15 reference/hg38/hapmap_3.3.hg38.vcf.gz \
+    --resource:omni,known=false,training=true,truth=true,prior=12 reference/hg38/1000G_omni2.5.hg38.vcf.gz \
+    --resource:1000G,known=false,training=true,truth=false,prior=10 reference/hg38/1000G_phase1.snps.high_confidence.hg38.vcf.gz \
+    --resource:dbsnp,known=true,training=false,truth=false,prior=7 reference/hg38/dbsnp_138.hg38.vcf.gz \
+    -an QD -an MQRankSum -an ReadPosRankSum -an FS -an MQ -an SOR -an DP \
+    -O output/cohort_snps.recal \
+    --tranches-file output/cohort_snps.tranches
 ```
 
-:::::::::::::::::::::::: solution 
+Step 2. ApplyVQSR
 
-## Output
- 
+```bash
+gatk --java-options "-Xmx7g" ApplyVQSR \
+    -R reference/hg38/Homo_sapiens_assembly38.fasta \
+    -V output/output.vcf.gz \
+    -O output/output.vqsr.vcf \
+    --truth-sensitivity-filter-level 99.0 \
+    --tranches-file output/cohort_snps.tranches \
+    --recal-file output/cohort_snps.recal \
+    -mode SNP
+```
+
+:::::::::::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::: callout
+
+#### Countvariants
+There are number of ways to count the variants in a VCF file. A very straight forward way using the GATK4 tools is as follows:
+
+```bash
+gatk CountVariants -V output/output.vqsr.vcf
+```
+
 ```output
-[1] "This new lesson looks good"
+Tool returned:
+10467
 ```
 
-:::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::::::::::::::::::::::::
 
 
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-
-``` r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
-```
-
-<div class="figure" style="text-align: center">
-<img src="fig/section-4-filter-and-prepare-analysis-ready-variants-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
-</div>
-Or you can use pandoc markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
 
 ::::::::::::::::::::::::::::::::::::: keypoints 
 
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
+- Use 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
